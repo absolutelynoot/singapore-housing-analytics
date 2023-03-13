@@ -21,7 +21,11 @@ app.config['DATAMALL_API_KEY'] = environ.get('DATAMALL_API_KEY')
 app.config['URA_API_KEY'] = environ.get('URA_API_KEY')
 app.config['URA_TOKEN'] = environ.get('URA_TOKEN')
 
-from .index import *
 from .hdb import *
 from .datamall import *
 from .ura import *
+
+
+@app.route("/")
+def index():
+    return "<h1>Singapore Housing Data Backend Application is working</h1>" 
