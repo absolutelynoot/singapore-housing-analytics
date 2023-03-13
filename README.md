@@ -29,4 +29,4 @@ npm run build
 ```
 
 
-By default the application will run on port 5753
+By default the application will run on port http://localhost:5753/
