@@ -2,7 +2,11 @@ from app import app
 from flask import jsonify
 import requests
 
-url = "https://data.gov.sg/api/action/datastore_search?resource_id=f1765b54-a209-4718-8d38-a39237f502b3"
+url = "https://data.gov.sg/api/action/datastore_search"
+params = {
+    "resource_id":"f1765b54-a209-4718-8d38-a39237f502b3"
+}
+
 
 @app.route("/hdb/")
 def testHdb():
@@ -10,11 +14,60 @@ def testHdb():
 
 @app.route("/hdb/price")
 def get_hdb_price():
-    try:
-        response = requests.get(url)
-        response.raise_for_status()
 
-        return jsonify(response.json()), 200
+    try:
+
+
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        return jsonify(data), 200
+
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+    
+@app.route("/hdb/all")
+def get_hdb_all():
+
+    all_records = []
+
+    offset = 0
+
+    try:
+
+
+        while(True):
+
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+
+            if(len(data["result"]["records"])>0):
+                all_records.append(data["result"]["records"])
+                params["offset"] += 100
+                print(params["offset"])
+            else:
+                break
+
+            
+        return jsonify(all_records), 200
+
+    except Exception as e:
+        return jsonify(error=str(e)), 500
+    
+@app.route("/hdb/<string:q>")
+def get_hdb_query(q: str):
+
+    try:
+
+        params["q"] = q
+
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        data = response.json()
+
+        return jsonify(data), 200
 
     except Exception as e:
         return jsonify(error=str(e)), 500
