@@ -1,0 +1,5 @@
+// create a copy of this file with your own API keys and rename it to .env
+// Make sure to paste it into the /server folder
+
+DATAMALL_API_KEY=
+URA_API_KEY=
