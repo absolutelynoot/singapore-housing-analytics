@@ -10,7 +10,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 3. Nivo Charts
 ```
 
-## Project Setup
+## Client Setup
 
 ```sh
 npm install
@@ -26,6 +26,25 @@ npm run dev
 
 ```sh
 npm run build
+```
+
+
+## Backend Setup
+
+```sh
+navigate to server directory `/server`
+```
+
+### Install Dependencies
+
+```sh
+pip install -r requirements.txt
+```
+
+### Run Python Backend Server
+
+```
+python run.py
 ```
 
 
