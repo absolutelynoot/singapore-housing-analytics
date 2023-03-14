@@ -36,7 +36,6 @@ def get_hdb_all():
 
     try:
 
-
         while(True):
 
             response = requests.get(url, params=params)
@@ -50,7 +49,6 @@ def get_hdb_all():
             else:
                 break
 
-            
         return jsonify(all_records), 200
 
     except Exception as e:

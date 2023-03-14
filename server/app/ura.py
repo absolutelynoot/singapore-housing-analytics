@@ -6,7 +6,7 @@ from ura_api import ura_api
 
 # initialise URA python wrapper
 # Link: https://pypi.org/project/ura-api/
-ura = ura_api.ura_api(app.config["URA_API_KEY"], app.config["URA_TOKEN"])
+ura = ura_api.ura_api(app.config["URA_API_KEY"])
 
 ## Available APIs ##
 
