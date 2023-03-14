@@ -1,6 +1,6 @@
 import { Outlet, Link, useLoaderData } from "react-router-dom";
 
-const hdb = () => {
+const Hdb = () => {
 
 
     return (
@@ -20,4 +20,4 @@ const hdb = () => {
     )
 }
 
-export default hdb
+export default Hdb

@@ -3,7 +3,6 @@ import { Outlet, Link, useLoaderData, } from "react-router-dom";
 
 const StandardLayout = () => {
 
-    const { hdbParams } = useLoaderData();
 
     return (
         <>
