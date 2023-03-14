@@ -1,2 +1,16 @@
 @import 'bootstrap/dist/css/bootstrap.css';
 
+$light: #F4F4F8; 
+$success: #00CC66;
+$primary: #C73B3C;
+
+
+.brand {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    color: $primary;
+}
+
+.nav-link {
+  color: #1C1C1C;
+}
