@@ -1,4 +1,5 @@
 import Navbar from '../Components/navbar'
+import Footer from '../Components/footer'
 import { Outlet, Link, useLoaderData, } from "react-router-dom";
 
 const StandardLayout = () => {
@@ -8,6 +9,7 @@ const StandardLayout = () => {
         <>
             <Navbar/>
             <Outlet />
+            <Footer/>
         </>
     )
 }

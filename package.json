@@ -24,6 +24,7 @@
     "react-router-dom": "^6.9.0",
     "sass": "^1.59.2",
     "sort-by": "^1.2.0",
+    "styled-components": "^5.3.9",
     "vite-plugin-babel-macros": "^1.0.6"
   },
   "devDependencies": {
