@@ -4,6 +4,7 @@ import requests
 from pymongo import MongoClient
 import certifi
 import sys
+from bson.json_util import dumps
 
 # url = "https://data.gov.sg/api/action/datastore_search"
 # params = {
@@ -16,10 +17,14 @@ mydb = client["housing"]
 mycol = mydb["hdb_prices"]
 
 @app.route("/hdb/")
-def testHdb():
+def get_hdb_all():
     try:
-        response = mycol.find_one()
-        return (response), 200
+        cur = mycol.find({})
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
     
     except:
         return 'Failed to connect to MongoDB'
@@ -37,32 +42,32 @@ def get_hdb_price():
     except Exception as e:
         return jsonify(error=str(e)), 500
     
-@app.route("/hdb/all")
-def get_hdb_all():
+# @app.route("/hdb/all")
+# def get_hdb_all():
 
-    all_records = []
+#     all_records = []
 
-    offset = 0
+#     offset = 0
 
-    try:
+#     try:
 
-        while(True):
+#         while(True):
 
-            response = requests.get(url, params=params)
-            response.raise_for_status()
-            data = response.json()
+#             response = requests.get(url, params=params)
+#             response.raise_for_status()
+#             data = response.json()
 
-            if(len(data["result"]["records"])>0):
-                all_records.append(data["result"]["records"])
-                params["offset"] += 100
-                print(params["offset"])
-            else:
-                break
+#             if(len(data["result"]["records"])>0):
+#                 all_records.append(data["result"]["records"])
+#                 params["offset"] += 100
+#                 print(params["offset"])
+#             else:
+#                 break
 
-        return jsonify(all_records), 200
+#         return jsonify(all_records), 200
 
-    except Exception as e:
-        return jsonify(error=str(e)), 500
+#     except Exception as e:
+#         return jsonify(error=str(e)), 500
     
 @app.route("/hdb/<string:q>")
 def get_hdb_query(q: str):
