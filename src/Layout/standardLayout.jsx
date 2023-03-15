@@ -9,7 +9,7 @@ const StandardLayout = () => {
         <>
             <Navbar/>
             <Outlet />
-            <Footer/>
+            <Footer />
         </>
     )
 }
