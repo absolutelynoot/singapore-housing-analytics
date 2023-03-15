@@ -18,12 +18,15 @@ body, html {
     max-height: 80px;
 }
 
+.brand-sm{
+  max-height: 50px;
+}
+
 .nav-link {
   color: #1C1C1C;
 }
 
 .header-img {
-  
   object-fit: fill;
   width: 100%;
   opacity: 0.50;

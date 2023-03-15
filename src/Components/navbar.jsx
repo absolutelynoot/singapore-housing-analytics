@@ -1,13 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMugHot } from "@fortawesome/free-solid-svg-icons";
 import LoftyLogo from '../assets/lofty-logo.png'
+import SingaporeFlag from '../assets/sg-flag.png'
 
 
 const Navbar = () => {
   return (
         <nav className="navbar py-3 mb-0 border-bottom navbar-expand-lg shadow">
         <div className="container-fluid px-5">
-            <a className="navbar-brand brand fs-3" href={`/`}><img alt="logo" class="border-end pe-3" src={LoftyLogo}></img> <span class="ms-3">Singapore Housing Analytics</span> </a>
+            <a className="navbar-brand brand fs-3" href={`/`}>
+                <img alt="logo" class="border-end pe-3 brand" src={LoftyLogo}/><img src={SingaporeFlag} alt="singapore-flag" className="ms-4 brand-sm"/>
+                <span class="ms-3">SG Housing Analytics</span> 
+            </a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
             </button>

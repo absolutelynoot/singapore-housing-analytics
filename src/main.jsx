@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client'
 // import components
 import ErrorPage from "./errorPage";
 import StandardLayout from './Layout/standardLayout'
+import Home from './Views/home'
 import Hdb from './Views/hdb'
 import PrivateProperty from './Views/privateProperty';
 
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     element: <StandardLayout/>,
     errorElement: <ErrorPage />,
     children: [
+      {
+        index: true,
+        element: <Home/>
+      },
       {
         path: "hdb",
         element: <Hdb />,
