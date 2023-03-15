@@ -10,10 +10,6 @@ import sys
 #     "resource_id":"f1765b54-a209-4718-8d38-a39237f502b3"
 # }
 
-client = MongoClient("mongodb+srv://group8:0000@housing.de7eplv.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
-mydb = client["housing"]
-mycol = mydb["hdb_prices"]
-
 @app.route("/hdb/")
 def testHdb():
     try:
