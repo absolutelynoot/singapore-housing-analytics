@@ -29,18 +29,18 @@ def get_hdb_all():
     except:
         return 'Failed to connect to MongoDB'
 
-@app.route("/hdb/price")
-def get_hdb_price():
+# @app.route("/hdb/price")
+# def get_hdb_price():
 
-    try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
+#     try:
+#         response = requests.get(url, params=params)
+#         response.raise_for_status()
+#         data = response.json()
 
-        return jsonify(data), 200
+#         return jsonify(data), 200
 
-    except Exception as e:
-        return jsonify(error=str(e)), 500
+#     except Exception as e:
+#         return jsonify(error=str(e)), 500
     
 # @app.route("/hdb/all")
 # def get_hdb_all():
@@ -69,18 +69,18 @@ def get_hdb_price():
 #     except Exception as e:
 #         return jsonify(error=str(e)), 500
     
-@app.route("/hdb/<string:q>")
-def get_hdb_query(q: str):
+# @app.route("/hdb/<string:q>")
+# def get_hdb_query(q: str):
 
-    try:
+#     try:
 
-        params["q"] = q
+#         params["q"] = q
 
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        data = response.json()
+#         response = requests.get(url, params=params)
+#         response.raise_for_status()
+#         data = response.json()
 
-        return jsonify(data), 200
+#         return jsonify(data), 200
 
-    except Exception as e:
-        return jsonify(error=str(e)), 500
+#     except Exception as e:
+#         return jsonify(error=str(e)), 500
