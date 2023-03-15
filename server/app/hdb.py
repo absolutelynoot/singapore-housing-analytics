@@ -1,22 +1,32 @@
 from app import app
 from flask import jsonify
 import requests
+from pymongo import MongoClient
+import certifi
+import sys
 
-url = "https://data.gov.sg/api/action/datastore_search"
-params = {
-    "resource_id":"f1765b54-a209-4718-8d38-a39237f502b3"
-}
+# url = "https://data.gov.sg/api/action/datastore_search"
+# params = {
+#     "resource_id":"f1765b54-a209-4718-8d38-a39237f502b3"
+# }
 
+client = MongoClient("mongodb+srv://group8:0000@housing.de7eplv.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
+mydb = client["housing"]
+mycol = mydb["hdb_prices"]
 
 @app.route("/hdb/")
 def testHdb():
-    return "hdb data application is working" 
+    try:
+        response = mycol.find_one()
+        return (response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
 
 @app.route("/hdb/price")
 def get_hdb_price():
 
     try:
-        
         response = requests.get(url, params=params)
         response.raise_for_status()
         data = response.json()
