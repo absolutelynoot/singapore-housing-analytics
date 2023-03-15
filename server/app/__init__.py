@@ -20,6 +20,7 @@ CORS(app)
 app.config['DATAMALL_API_KEY'] = environ.get('DATAMALL_API_KEY')
 app.config['URA_API_KEY'] = environ.get('URA_API_KEY')
 app.config['URA_TOKEN'] = environ.get('URA_TOKEN')
+app.config['MONGO_URI'] = environ.get('MONGO_URI')
 
 from .hdb import *
 from .datamall import *
