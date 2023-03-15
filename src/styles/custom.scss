@@ -15,6 +15,7 @@ body, html {
     font-family: 'Open-sans', sans-serif;
     font-weight: 900;
     color: $primary;
+    max-height: 80px;
 }
 
 .nav-link {
@@ -37,7 +38,6 @@ body, html {
   background-position: top;
   background-repeat: no-repeat;
   background-size: fill;
-  box-shadow: 0 0 20px 10px white inset;
 }
 
 .header-logo {

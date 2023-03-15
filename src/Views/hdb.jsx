@@ -1,10 +1,15 @@
 import { Outlet, Link, useLoaderData } from "react-router-dom";
+import { useEffect } from "react";
 import Header from '../Components/header'
 import HdbHeaderImage from '../assets/hdb-header.jpg'
 import hdbLogo from '../assets/hdb-logo.png'
 import BreadCrumbs from "../Components/breadCrumbs";
 
 const Hdb = () => {
+
+    useEffect(() => {
+        document.title = 'Lofty | HDB Housing Analytics';
+      }, []);
 
     const headerText = "HDB Housing Analytics";
     const headerDesc= "Compare prices, resale volume of flats and ammenities";
