@@ -1,2 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Lato');
 @import 'bootstrap/dist/css/bootstrap.css';
 
+$light: #F4F4F8; 
+$success: #00CC66;
+$primary: #C73B3C;
+
+
+body, html {
+  height: 100%;
+  font-family: Lato, sans-serif;
+}
+
+.brand {
+    font-family: 'Open-sans', sans-serif;
+    font-weight: 900;
+    color: $primary;
+}
+
+.nav-link {
+  color: #1C1C1C;
+}
+
+.header-img {
+  
+  object-fit: fill;
+  width: 100%;
+  opacity: 0.50;
+  position: absolute;
+  z-index:-1;
+
+  /* Full height */
+  height: 200px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: fill;
+  box-shadow: 0 0 20px 10px white inset;
+}
+
+.header-logo {
+  max-width: 100px;
+}
+
+.text-link {
+  color: inherit;
+  text-decoration: inherit;
+
+}
