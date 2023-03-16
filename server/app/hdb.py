@@ -3,13 +3,6 @@ from flask import jsonify
 import requests
 from pymongo import MongoClient
 import certifi
-import sys
-from bson.json_util import dumps
-
-# url = "https://data.gov.sg/api/action/datastore_search"
-# params = {
-#     "resource_id":"f1765b54-a209-4718-8d38-a39237f502b3"
-# }
 
 # client = MongoClient("mongodb+srv://group8:0000@housing.de7eplv.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
 client = MongoClient(app.config["MONGO_URI"], tlsCAFile=certifi.where())
@@ -29,58 +22,33 @@ def get_hdb_all():
     except:
         return 'Failed to connect to MongoDB'
 
-# @app.route("/hdb/price")
-# def get_hdb_price():
+@app.route("/hdb/total_transactions_over_months")
+def get_hdb_total_transactions_over_months():
+    try:
+        cur = mycol.aggregate([
+                {
+                    "$group" : {
+                        "_id" : { "date": "$month" } ,
+                    "total": { "$sum": 1 }
+                    }
+                }
+                ])
+        
+        temp = []
+        temp_dict = {}
 
-#     try:
-#         response = requests.get(url, params=params)
-#         response.raise_for_status()
-#         data = response.json()
+        for item in cur:
+            temp_dict = {"x" : item['_id']['date'], "y" : item['total']}
+            temp.append(temp_dict)
 
-#         return jsonify(data), 200
+        response = [{'id': 'Singapore',
+                    "color": "hsl(283, 70%, 50%)",
+                    "data": temp}]
+        
+        # Sort the data list based on the "x" key in the "data" list
+        response[0]["data"] = sorted(response[0]["data"], key=lambda d: d["x"])
 
-#     except Exception as e:
-#         return jsonify(error=str(e)), 500
+        return jsonify(response), 200
     
-# @app.route("/hdb/all")
-# def get_hdb_all():
-
-#     all_records = []
-
-#     offset = 0
-
-#     try:
-
-#         while(True):
-
-#             response = requests.get(url, params=params)
-#             response.raise_for_status()
-#             data = response.json()
-
-#             if(len(data["result"]["records"])>0):
-#                 all_records.append(data["result"]["records"])
-#                 params["offset"] += 100
-#                 print(params["offset"])
-#             else:
-#                 break
-
-#         return jsonify(all_records), 200
-
-#     except Exception as e:
-#         return jsonify(error=str(e)), 500
-    
-# @app.route("/hdb/<string:q>")
-# def get_hdb_query(q: str):
-
-#     try:
-
-#         params["q"] = q
-
-#         response = requests.get(url, params=params)
-#         response.raise_for_status()
-#         data = response.json()
-
-#         return jsonify(data), 200
-
-#     except Exception as e:
-#         return jsonify(error=str(e)), 500
+    except:
+        return 'Failed to connect to MongoDB'
