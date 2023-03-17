@@ -8,12 +8,7 @@ const CardFeatures = ({cardImg, cardTitle, cardDesc, route}) => {
             <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{cardTitle}</h3>
             <ul class="d-flex list-unstyled mt-auto">
               <li class="d-flex align-items-center me-3">
-                <div>image here</div>
-                <small>Earth</small>
-              </li>
-              <li class="d-flex align-items-center">
-                <div>image here</div>
-                <small>3d</small>
+                <div>{cardDesc}</div>
               </li>
             </ul>
           </div>
