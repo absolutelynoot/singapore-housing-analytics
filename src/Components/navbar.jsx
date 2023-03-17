@@ -5,16 +5,16 @@ import SingaporeFlag from "../assets/sg-flag.png";
 
 const Navbar = () => {
   return (
-    <nav className="navbar py-3 mb-0 border-bottom navbar-expand-lg shadow">
+    <nav className="navbar py-3 mb-0 border-bottom navbar-expand-xl shadow">
       <div className="container-fluid px-5">
         <a className="navbar-brand brand fs-3" href={`/`}>
-          <img alt="logo" className="border-end pe-3 brand" src={LoftyLogo} />
+          <img alt="logo" className="border-end pe-3 brand img-fluid d-none d-md-inline" src={LoftyLogo} />
           <img
             src={SingaporeFlag}
             alt="singapore-flag"
-            className="ms-4 brand-sm"
+            className="ms-4 brand-sm d-none d-lg-inline border"
           />
-          <span className="ms-3">SG Housing Analytics</span>
+          <span className="ms-3 fs-sm-5 fs-md-2">SG Housing Analytics</span>
         </a>
         <button
           className="navbar-toggler"

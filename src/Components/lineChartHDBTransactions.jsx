@@ -1,5 +1,4 @@
 // install (please make sure versions match peerDependencies)
-// yarn add @nivo/core @nivo/line
 import { ResponsiveLine } from '@nivo/line'
 // import { data } from "./sample-data/line-chart-sample-data";
 import { useState, useEffect } from "react";
