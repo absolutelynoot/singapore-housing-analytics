@@ -5,6 +5,7 @@ import HdbHeaderImage from '../assets/hdb-header.jpg'
 import hdbLogo from '../assets/hdb-logo.png'
 import BumpChart from "../Components/bumpChart";
 import LineChart from "../Components/lineChartHDBTransactions";
+import BarChart from "../Components/barChartHDBAveragePriceSQM";
 
 const Hdb = () => {
 
@@ -30,6 +31,11 @@ const Hdb = () => {
         </div>
         <div className="container mb-5">
             <LineChart/>
+
+        </div>
+
+        <div className="container mb-5">
+            <BarChart/>
 
         </div>
 

@@ -52,3 +52,42 @@ def get_hdb_total_transactions_over_months():
     
     except:
         return 'Failed to connect to MongoDB'
+
+@app.route("/hdb/town_vs_avg_price")
+def get_hdb_town_vs_avg_price():
+    try:
+        cur = mycol.aggregate([
+            {
+                "$addFields": {
+                "resale_price_double": { "$toDouble": "$resale_price" },
+                "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+            },
+            {
+                "$addFields": {
+                "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+            },
+            {
+                "$group": {
+                "_id": "$town",
+                "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+            }
+            ])
+        
+        temp = []
+        temp_dict = {}
+
+        for item in cur:
+            temp_dict = {"town" : item['_id'], "avg_resale_price_sqm" : round(item['avg_resale_price_sqm']), "priceColor": "hsl(283, 70%, 50%)"}
+            temp.append(temp_dict)
+        
+        #  Sort the data list based on the "x" key in the "data" list
+        response = sorted(temp, key=lambda x: x["avg_resale_price_sqm"], reverse=True)
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
