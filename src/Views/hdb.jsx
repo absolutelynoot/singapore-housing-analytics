@@ -91,16 +91,6 @@ const Hdb = () => {
         </Route>
       </Routes>
 
-      {/* <div className="container mb-5">
-        <BumpChart />
-      </div>
-      <div className="container mb-5">
-        <LineChart />
-      </div>
-
-      <div className="container mb-5">
-        <BarChart />
-      </div> */}
     </>
   );
 };

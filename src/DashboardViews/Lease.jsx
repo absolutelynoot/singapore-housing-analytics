@@ -1,8 +1,10 @@
-import React from 'react'
+import BumpChart from "../Components/BumpChart"
 
 const Lease = () => {
   return (
-    <div>This is leaase dashboard page</div>
+    <>
+        <BumpChart />
+    </>
   )
 }
 

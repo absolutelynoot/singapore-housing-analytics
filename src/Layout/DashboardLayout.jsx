@@ -9,7 +9,7 @@ const DashboardLayout = ({sideNavData}) => {
             <div className="col-3">
                 <Sidenav sideNavData={sideNavData}/>
             </div>
-            <div className="col-7">
+            <div className="col-8">
                 <Outlet/>
             </div>
         </div>

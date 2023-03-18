@@ -1,8 +1,17 @@
-import React from 'react'
+import LineChart from "../Components/LineChartHDBTransactions"
+import BarChart from "../Components/BarChartHDBAveragePriceSQM"
 
 const Pricing = () => {
   return (
-    <div>This is pricing</div>
+    <div>
+      <div className="container mb-5">
+        <LineChart />
+      </div>
+
+      <div className="container mb-5">
+        <BarChart />
+      </div>
+    </div>
   )
 }
 
