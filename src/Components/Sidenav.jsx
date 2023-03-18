@@ -9,7 +9,7 @@ const Sidenav = ({ sideNavData }) => {
         <React.Fragment key={item.name}>
           <nav className="nav nav-pills flex-column">
             <Link
-              className={`nav-link fw-bold fs-5 ${(location.pathname == item.path && !("subPages" in item)) ? "active" : ""} ${("subPages" in item) ? "pe-none" : "" }`}
+              className={`nav-link fw-bold fs-6 ${(location.pathname == item.path && !("subPages" in item)) ? "active" : ""} ${("subPages" in item) ? "pe-none" : "" }`}
               to={`${item.path}`}
             >
               {item.name}

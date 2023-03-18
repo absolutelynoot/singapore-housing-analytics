@@ -6,10 +6,10 @@ const DashboardLayout = ({sideNavData}) => {
   return (
     <div className="container px-0">
         <div className="row">
-            <div className="col-3">
+            <div className="col-2">
                 <Sidenav sideNavData={sideNavData}/>
             </div>
-            <div className="col-8">
+            <div className="col-9">
                 <Outlet/>
             </div>
         </div>
