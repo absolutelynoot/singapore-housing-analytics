@@ -33,7 +33,7 @@ const Home = () => {
       PpCardImg,
       "Private Property Analytics",
       "Compare prices, resale volume of flats and ammenities",
-      "/private_property",
+      "/private-property",
     ],
   ];
 
