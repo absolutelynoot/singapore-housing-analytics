@@ -1,9 +1,8 @@
 import Navbar from '../Components/navbar'
 import Footer from '../Components/footer'
-import { Outlet, Link, useLoaderData, } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const StandardLayout = () => {
-
 
     return (
         <>

@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMugHot } from "@fortawesome/free-solid-svg-icons";
 import LoftyLogo from "../assets/lofty-logo.png";
 import SingaporeFlag from "../assets/sg-flag.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -30,21 +31,23 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul className="navbar-nav ms-auto me-3 fs-5 mb-2 mb-lg-0">
             <li className="nav-item mx-3">
-              <a href={`/`} className="nav-link">
+              <Link to={`/`}> <div className="nav-link">
                 Home
-              </a>
+              </div></Link>
             </li>
             <li className="nav-item mx-3">
-              <a href={`/hdb`} className="nav-link">
+            <Link to={`/hdb`}> 
+              <div className="nav-link">
                 HDB
-              </a>
+              </div></Link>
             </li>
             <li className="nav-item mx-3">
-              <a href={`/private_property`} className="nav-link">
+              <Link to={`/private-property`}>
+              <div className="nav-link">
                 Private Property
-              </a>
+              </div></Link>
             </li>
-            <li className="nav-item ms-lg-3 p-0 align-self-lg-center">
+            <li className="nav-item ms-lg-3 p-0 align-self-xl-center align-self-start">
               <button className="btn btn-danger fw-bold" type="submit">
                 <FontAwesomeIcon className="me-2" icon={faMugHot} />
                 Buy us a coffee

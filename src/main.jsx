@@ -4,10 +4,17 @@ import ReactDOM from 'react-dom/client'
 
 // import components
 import ErrorPage from "./errorPage";
-import StandardLayout from './Layout/standardLayout'
+import StandardLayout from './Layout/StandardLayout'
 import Home from './Views/home'
 import Hdb from './Views/hdb'
 import PrivateProperty from './Views/privateProperty';
+import Overview from "./DashboardViews/Overview";
+import Pricing from './DashboardViews/Pricing';
+import Lease from './DashboardViews/Lease';
+import HousingType from './DashboardViews/HousingType';
+import Location from './DashboardViews/Location';
+import Transportation from './DashboardViews/Transportation';
+import Parks from './DashboardViews/Parks';
 
 // import styles
 import './styles/custom.scss'
@@ -31,9 +38,39 @@ const router = createBrowserRouter([
       {
         path: "hdb",
         element: <Hdb />,
+        children: [
+          {
+            path: "overview",
+            element: <Overview />
+          },
+          {
+            path: "pricing",
+            element: <Pricing />
+          },
+          {
+            path: "lease",
+            element: <Lease />
+          },
+          {
+            path: "location",
+            element: <Location />
+          },
+          {
+            path: "house-type",
+            element: <HousingType />
+          },
+          {
+            path: "transportation",
+            element: <Transportation />
+          },
+          {
+            path: "parks",
+            element: <Parks />
+          },
+        ]
       },
       {
-        path: "private_property",
+        path: "private-property",
         element: <PrivateProperty />,
       }
     ],

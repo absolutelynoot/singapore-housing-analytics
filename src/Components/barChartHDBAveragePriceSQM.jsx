@@ -2,7 +2,7 @@ import { ResponsiveBar } from "@nivo/bar";
 import { data } from "./sample-data/bar-chart-sample-data";
 import { useState, useEffect } from "react";
 
-const barChartHDBAveragePriceSqm = () => {
+const BarChartHDBAveragePriceSqm = () => {
   const [data, setData] = useState([]);
 
   const handleFetchData = async () => {
@@ -95,4 +95,4 @@ const barChartHDBAveragePriceSqm = () => {
   );
 };
 
-export default barChartHDBAveragePriceSqm;
+export default BarChartHDBAveragePriceSqm;

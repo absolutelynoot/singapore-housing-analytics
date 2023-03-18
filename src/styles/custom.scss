@@ -61,3 +61,11 @@ a {
   color: $primary;
   text-decoration: none;
 }
+
+.card-feature{
+  transition: transform .4s;
+}
+
+.card-feature:hover{
+  transform: scale(1.04);
+}
