@@ -6,7 +6,7 @@ const BarChartHDBAveragePriceSqm = () => {
   const [data, setData] = useState([]);
 
   const handleFetchData = async () => {
-    const response = await fetch("http://127.0.0.1:5000/hdb/town_vs_median_price");
+    const response = await fetch("http://127.0.0.1:5000/hdb/town_vs_avg_price");
     if (response.ok) {
       const temp = await response.json();
       setData(temp);
