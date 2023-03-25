@@ -1,14 +1,14 @@
 import { ResponsiveBar } from "@nivo/bar";
-import { data } from "./sample-data/bar-chart-sample-data";
+import { data } from "./sample-data/stacked-bar-chart-sample-data-lease";
 
 const BarChart = () => {
   return (
     <div style={{ height: "400px" }}>
-      <h2>My awesome bar chart</h2>
+      <h2>HDB Lease Analysis</h2>
       <ResponsiveBar
         data={data}
-        keys={["hot dog", "burger", "sandwich", "kebab", "fries", "donut"]}
-        indexBy="country"
+        keys={["Executive", "5 Room", "4 Room", "3 Room", "2 Room", "Studio"]}
+        indexBy="Lease Bins"
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: "linear" }}
@@ -58,7 +58,7 @@ const BarChart = () => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "country",
+          legend: "Lease Bins",
           legendPosition: "middle",
           legendOffset: 32,
         }}
@@ -66,7 +66,7 @@ const BarChart = () => {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "food",
+          legend: "Resale Price",
           legendPosition: "middle",
           legendOffset: -40,
         }}
