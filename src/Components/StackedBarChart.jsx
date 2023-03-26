@@ -1,13 +1,29 @@
 import { ResponsiveBar } from "@nivo/bar";
-import { data } from "./sample-data/stacked-bar-chart-sample-data-lease";
+// import { data } from "./sample-data/stacked-bar-chart-sample-data-lease";
+import { useState, useEffect } from "react";
 
 const BarChart = () => {
+  const [data, setData] = useState([])
+
+    const handleFetchData = async () => {
+        const response = await fetch('http://127.0.0.1:5000/hdb/lease_data');
+        if (response.ok) {
+            const temp = await response.json();
+            console.log(temp);
+            setData(temp);
+        }
+    }
+    
+    useEffect(() => {
+        handleFetchData();
+    },[])
+
   return (
     <div style={{ height: "400px" }}>
       <h2>HDB Lease Analysis</h2>
       <ResponsiveBar
         data={data}
-        keys={["Executive", "5 Room", "4 Room", "3 Room", "2 Room", "Studio"]}
+        keys={["EXECUTIVE", "MULTI-GENERATION", "5 ROOM", "4 ROOM", "3 ROOM", "2 ROOM", "1 ROOM"]}
         indexBy="Lease Bins"
         margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
