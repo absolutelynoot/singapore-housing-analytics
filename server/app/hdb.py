@@ -148,7 +148,7 @@ def get_lease_data():
                 }
 
             # Update the corresponding flat type with the average resale price
-            result[lease_commence_date][flat_type] = avg_resale_price_sqm
+            result[lease_commence_date][flat_type] = round(avg_resale_price_sqm,2)
         
         print(result)
 
