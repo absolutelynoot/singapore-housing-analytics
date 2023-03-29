@@ -8,6 +8,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 1. React
 2. Bootstrap
 3. Nivo Charts
+4. @react-google-maps/api
 ```
 
 ## Client Setup
