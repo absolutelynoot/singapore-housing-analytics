@@ -19,17 +19,25 @@ const BarChart = () => {
     },[])
 
   return (
-    <div style={{ height: "400px" }}>
+    <div style={{ height: "500px" }}>
       <h2>HDB Lease Analysis</h2>
       <ResponsiveBar
         data={data}
-        keys={["EXECUTIVE", "MULTI-GENERATION", "5 ROOM", "4 ROOM", "3 ROOM", "2 ROOM", "1 ROOM"]}
+        keys={[
+            "EXECUTIVE", 
+            "MULTI-GENERATION", 
+            "5 ROOM", 
+            "4 ROOM", 
+            "3 ROOM", 
+            "2 ROOM", 
+            "1 ROOM"
+          ]}
         indexBy="Lease Bins"
-        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
+        margin={{ top: 50, right: 120, bottom: 50, left: 80 }}
         padding={0.3}
         valueScale={{ type: "linear" }}
         indexScale={{ type: "band", round: true }}
-        colors={{ scheme: "nivo" }}
+        colors={{ scheme: "set1" }}
         defs={[
           {
             id: "dots",
@@ -50,20 +58,6 @@ const BarChart = () => {
             spacing: 10,
           },
         ]}
-        fill={[
-          {
-            match: {
-              id: "fries",
-            },
-            id: "dots",
-          },
-          {
-            match: {
-              id: "sandwich",
-            },
-            id: "lines",
-          },
-        ]}
         borderColor={{
           from: "color",
           modifiers: [["darker", 1.6]],
@@ -76,15 +70,15 @@ const BarChart = () => {
           tickRotation: 0,
           legend: "Lease Bins",
           legendPosition: "middle",
-          legendOffset: 32,
+          legendOffset: 40,
         }}
         axisLeft={{
           tickSize: 5,
-          tickPadding: 5,
+          tickPadding: 0,
           tickRotation: 0,
-          legend: "Resale Price",
+          legend: "Average Resale Price per Square Meter ($)",
           legendPosition: "middle",
-          legendOffset: -40,
+          legendOffset: -50,
         }}
         labelSkipWidth={12}
         labelSkipHeight={12}

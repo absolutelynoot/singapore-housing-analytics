@@ -80,7 +80,6 @@ def get_hdb_town_vs_avg_price():
         temp_dict = {}
 
         for item in cur:
-            print(item)
             temp_dict = {"town" : item['_id'], "avg_resale_price_sqm" : round(item['avg_resale_price_sqm']), "priceColor": "hsl(283, 70%, 50%)"}
             temp.append(temp_dict)
         
@@ -91,108 +90,72 @@ def get_hdb_town_vs_avg_price():
     
     except:
         return 'Failed to connect to MongoDB'
-    
+
 @app.route("/hdb/lease_data")
 def get_lease_data():
-    print("======= get_lease_data RUNNING ========")
     try:
-        cur = mycol.find({})
-        list_cur = list(cur)
+        # mycol = 
+        cur = mydb["hdb_lease_grouped"].aggregate([
+                {
+                    "$group": {
+                    "_id": {   
+                            "lease_bins": "$lease_bins",
+                            "flat_type": "$flat_type"
+                    },
+                    "avg_resale_price_sqm": { "$avg": "$resale_price_per_sqm" }
+                }
+                }
+            ])
 
-        lease_bins = {
-                        "94-90 years": [], 
-                        "89-85 years": [],
-                        "84-80 years": [],
-                        "79-75 years": [],
-                        "74-70 years": [],
-                        "69-65 years": [],
-                        "64-60 years": [],
-                        "59-55 years": [] 
+        # Create a dictionary to store the transformed data
+        result = {}
+        # Iterate over each dictionary in the list
+        for d in list(cur):
+            # Get the lease commence date and flat type
+            lease_bins = d['_id']['lease_bins']
+            flat_type = d['_id']['flat_type']
+
+            # Get the average resale price per square meter
+            avg_resale_price_sqm = d['avg_resale_price_sqm']
+
+            # Check if the lease commence date is already in the result dictionary
+            if (type(lease_bins) == str):
+                if lease_bins not in result:
+                    # print(f"{lease_bins}, the type of lease_bins is {type(lease_bins)}\n")
+
+                    # If not, create a new dictionary for it
+                    result[lease_bins] = {
+                        'Lease Bins': lease_bins,
+                        'EXECUTIVE': 0,
+                        'EXECUTIVEColor': 'hsl(230, 70%, 50%)',
+                        'MULTI-GENERATION': 0,
+                        'MULTI-GENERATIONColor': 'hsl(293, 70%, 50%)',
+                        '5 ROOM': 0,
+                        '5 ROOMColor': 'hsl(285, 70%, 50%)',
+                        '4 ROOM': 0,
+                        '4 ROOMColor': 'hsl(10, 70%, 50%)',
+                        '3 ROOM': 0,
+                        '3 ROOMColor': 'hsl(241, 70%, 50%)',
+                        '2 ROOM': 0,
+                        '2 ROOMColor': 'hsl(259, 70%, 50%)',
+                        '1 ROOM': 0,
+                        '1 ROOMColor': 'hsl(270, 70%, 50%)',
                     }
+                # print(f"\nCREATED NEW DICTIONARY FOR LEASE BIN: {result[lease_bins]}\n")
+                # Update the corresponding flat type with the average resale price
+                result[lease_bins][flat_type] = round(avg_resale_price_sqm,2)
+                # print(f"\nUPDATED LEASE BIN NUMBERS: {result[lease_bins]}\n")
+            
+        # print(f"\nTHE FINAL RESULT IS: \n{result}\n")
+
+        # Convert the dictionary to a list
+        response = list(result.values())
         
-        flat_types = [
-                        "EXECUTIVE",
-                        "MULTI-GENERATION",
-                        "5 ROOM",
-                        "4 ROOM",
-                        "3 ROOM",
-                        "2 ROOM",
-                        "1 ROOM"
-                    ]
+        #  Sort the lease bins list based on the "Lease Bins" key in the "data" list
+        response = sorted(response, key=lambda x: x["Lease Bins"], reverse=False)
 
-        # Loop through each document and sort them into the lease bins
-        for doc in list_cur:
-            # print(doc)
-            flat_type = doc["flat_type"]
-            lease = int(doc['remaining_lease'][:2])
-            if 90 <= lease <= 94:
-                lease_bins["94-90 years"].append(doc)
-            elif 85 <= lease <=89:
-                lease_bins["89-85 years"].append(doc)
-            elif 80 <= lease <=84:
-                lease_bins["89-85 years"].append(doc)
-            elif 75 <= lease <= 79:
-                lease_bins["79-75 years"].append(doc)
-            elif 70 <= lease <= 74:
-                lease_bins["74-70 years"].append(doc)
-            elif 65 <= lease <= 69:
-                lease_bins["69-65 years"].append(doc)
-            elif 60 <= lease <= 64:
-                lease_bins["64-60 years"].append(doc)
-            elif 55 <= lease <= 59:
-                lease_bins["59-55 years"].append(doc)
-
-        output_data = [lease_bins]
-        # temp_dict={}
-
-        # for key in lease_bins:
-        #     print("Doing lease bin: " + key)
-        #     print(len(lease_bins[key]))
-
-        #     temp_resale_dict = {}
-        #     for flat_type in flat_types:
-        #         print(flat_type)
-        #         count = 0
-        #         total_resale_price = 0
-        #         for data in lease_bins[key]:
-        #             if data['flat_type'] == flat_type:
-        #                 total_resale_price += int(data['resale_price'])
-        #                 # CODE STOPS WORKING HERE, 94-90 YEARS 5 ROOM FLAT
-        #                 count+=1
-        #                 print(total_resale_price, count)
-        #         if count > 0:
-        #             avg_resale_price = total_resale_price / count
-        #             temp_resale_dict[flat_type] = avg_resale_price
-        #             print("The average resale value for flat type " + flat_type + " is " + avg_resale_price)
-        #         else:
-        #             temp_resale_dict[flat_type] = 0
-        #             print("No resale houses for flat type: " + flat_type)
-
-        #     temp_dict = {
-        #         "Lease Bins": key,
-        #         "EXECUTIVE": temp_resale_dict['EXECUTIVE'],
-        #         "EXECUTIVEColor": "hsl(293, 70%, 50%)",
-        #         "MULTI-GENERATION": temp_resale_dict['MULTI-GENERATION'],
-        #         "MULTI-GENERATION": "hsl(293, 70%, 50%)",
-        #         "5 ROOM": temp_resale_dict['5 ROOM'],
-        #         "5 ROOMColor": "hsl(285, 70%, 50%)",
-        #         "4 ROOM": temp_resale_dict['4 ROOM'],
-        #         "4 ROOMColor": "hsl(10, 70%, 50%)",
-        #         "3 ROOM": temp_resale_dict["3 ROOM"],
-        #         "3 ROOMColor": "hsl(241, 70%, 50%)",
-        #         "2 ROOM": temp_resale_dict["2 ROOM"],
-        #         "2 ROOMColor": "hsl(259, 70%, 50%)",
-        #         "1 ROOM": temp_resale_dict["1 ROOM"],
-        #         "1 ROOMColor": "hsl(270, 70%, 50%)"
-        #     }
-        #     print(temp_dict)
-
-        #     output_data.append(temp_dict)
-        
-        # print(lease_bins["94-90 years"][0])
-        
-        response = {"Result": [output_data]}
-
+        # return jsonify(response), 200
         return jsonify(response), 200
+    
     except:
         return 'Failed to connect to MongoDB'
