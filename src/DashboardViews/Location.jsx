@@ -1,7 +1,9 @@
+import SimpleMap from "../Components/geo"
+
 
 const Location = () => {
   return (
-    <div>This is location</div>
+      <SimpleMap/>
   )
 }
 

@@ -53,7 +53,7 @@ const router = createBrowserRouter([
           },
           {
             path: "location",
-            element: <Location />
+            element:<React.StrictMode> <Location /> </React.StrictMode>
           },
           {
             path: "house-type",
