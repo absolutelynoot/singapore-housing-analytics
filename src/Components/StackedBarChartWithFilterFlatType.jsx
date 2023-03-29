@@ -33,14 +33,15 @@ const BarChart = () => {
   const filteredData = 
     selectedFilters.size === 0
       ? data // show all data if no filter is selected
-      : data.filter((d) => {
-      for (const key of selectedFilters) {
-        if (d[key]) {
-          return true;
-        }
-      }
-      return false;
-    });
+      : data.filter((d) => true);
+    //   {
+    //   for (const key of selectedFilters) {
+    //     if (d[key]) {
+    //       return true;
+    //     }
+    //   }
+    //   return false;
+    // });
 
   return (
     <div style={{ height: "400px" }}>
