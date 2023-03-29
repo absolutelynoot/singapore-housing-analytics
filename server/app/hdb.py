@@ -106,7 +106,7 @@ def get_lease_data():
                 }
                 }
             ])
-        
+
         # Create a dictionary to store the transformed data
         result = {}
         # Iterate over each dictionary in the list
@@ -121,7 +121,7 @@ def get_lease_data():
             # Check if the lease commence date is already in the result dictionary
             if (type(lease_bins) == str):
                 if lease_bins not in result:
-                    print(f"{lease_bins}, the type of lease_bins is {type(lease_bins)}\n")
+                    # print(f"{lease_bins}, the type of lease_bins is {type(lease_bins)}\n")
 
                     # If not, create a new dictionary for it
                     result[lease_bins] = {
@@ -141,18 +141,18 @@ def get_lease_data():
                         '1 ROOM': 0,
                         '1 ROOMColor': 'hsl(270, 70%, 50%)',
                     }
-                print(f"\nCREATED NEW DICTIONARY FOR LEASE BIN: {result[lease_bins]}\n")
-            # Update the corresponding flat type with the average resale price
-            result[lease_bins][flat_type] = round(avg_resale_price_sqm,2)
-            print(f"\nUPDATED LEASE BIN NUMBERS: {result[lease_bins]}\n")
-
-        print(f"\nTHE FINAL RESULT IS: \n{result}\n")
+                # print(f"\nCREATED NEW DICTIONARY FOR LEASE BIN: {result[lease_bins]}\n")
+                # Update the corresponding flat type with the average resale price
+                result[lease_bins][flat_type] = avg_resale_price_sqm
+                # print(f"\nUPDATED LEASE BIN NUMBERS: {result[lease_bins]}\n")
+            
+        # print(f"\nTHE FINAL RESULT IS: \n{result}\n")
 
         # Convert the dictionary to a list
         response = list(result.values())
         
         #  Sort the lease bins list based on the "Lease Bins" key in the "data" list
-        # response = sorted(response, key=lambda x: x["Lease Bins"], reverse=False)
+        response = sorted(response, key=lambda x: x["Lease Bins"], reverse=False)
 
         # return jsonify(response), 200
         return jsonify(response), 200
