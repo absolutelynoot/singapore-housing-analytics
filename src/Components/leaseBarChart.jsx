@@ -1,12 +1,11 @@
 import { ResponsiveBar } from "@nivo/bar";
-import { data } from "./sample-data/bar-chart-sample-data";
 import { useState, useEffect } from "react";
 
-const BarChartHDBAveragePriceSqm = () => {
+const LeaseBarChart = () => {
   const [data, setData] = useState([]);
 
   const handleFetchData = async () => {
-    const response = await fetch("http://127.0.0.1:5000/hdb/town_vs_avg_price");
+    const response = await fetch("http://127.0.0.1:5000/hdb/lease_data");
     if (response.ok) {
       const temp = await response.json();
       setData(temp);
@@ -18,13 +17,19 @@ const BarChartHDBAveragePriceSqm = () => {
   }, []);
 
   return (
-    <div style={{ height: "400px", marginBottom:"200px"}}>
-      <h2>Town vs Average price per sqm</h2>
+    <div style={{ height: "400px" }}>
+      <h2>Lease Bar Chart</h2>
       <ResponsiveBar
         data={data}
-        keys={["avg_resale_price_sqm"]}
-        indexBy="town"
-        margin={{ top: 50, right: 130, bottom: 150, left: 60 }}
+        keys={["1 ROOM",
+            "2 ROOM",
+            "3 ROOM",
+            "4 ROOM", 
+            "5 ROOM",
+            "EXECUTIVE",
+            "MULTI-GENERATION"]}
+        indexBy="Lease Commence Date"
+        margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: "linear" }}
         indexScale={{ type: "band", round: true }}
@@ -40,10 +45,10 @@ const BarChartHDBAveragePriceSqm = () => {
         axisBottom={{
           tickSize: 5,
           tickPadding: 5,
-          tickRotation: 90,
-          legend: "town",
+          tickRotation: 0,
+          legend: "Lease Commencement Date",
           legendPosition: "middle",
-          legendOffset: 100,
+          legendOffset: 32,
         }}
         axisLeft={{
           tickSize: 5,
@@ -51,7 +56,7 @@ const BarChartHDBAveragePriceSqm = () => {
           tickRotation: 0,
           legend: "Average per sqm",
           legendPosition: "middle",
-          legendOffset: -50,
+          legendOffset: -40,
         }}
         labelSkipWidth={12}
         labelSkipHeight={12}
@@ -95,4 +100,4 @@ const BarChartHDBAveragePriceSqm = () => {
   );
 };
 
-export default BarChartHDBAveragePriceSqm;
+export default LeaseBarChart;

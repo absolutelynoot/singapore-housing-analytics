@@ -2,6 +2,8 @@
 import { ResponsiveLine } from '@nivo/line'
 // import { data } from "./sample-data/line-chart-sample-data";
 import { useState, useEffect } from "react";
+import Slider from 'rc-slider'
+import 'rc-slider/assets/index.css'
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -10,6 +12,7 @@ import { useState, useEffect } from "react";
 // you'll often use just a few of them.
 const MyResponsiveLine = () => {
     const [data, setData] = useState([])
+    const [year, setYear] = useState('2023')
 
     const handleFetchData = async () => {
         const response = await fetch('http://127.0.0.1:5000/hdb/total_transactions_over_months');
@@ -24,12 +27,29 @@ const MyResponsiveLine = () => {
         handleFetchData();
     },[])
 
+    const handleSliderChange = (value) => {
+        console.log(value);
+        setYear(value.toString())
+      }
+
     return (
-        <div style={{height:"400px"}}>
+        <div style={{height:"600px", marginBottom:"200px"}}>
+            <Slider
+                min={2017}
+                max={2023}
+                defaultValue={2023}
+                onChange={handleSliderChange}
+                // aria-label="Custom marks"
+                aria-label="Custom marks"
+                getAriaValueText={year}
+                valueLabelDisplay="auto"
+                step={1}
+                marks
+            />
             <h1>Total Transactions vs Months</h1>
             <ResponsiveLine
                 data={data}
-                margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+                margin={{ top: 50, right: 110, bottom: 150, left: 60 }}
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',
@@ -45,9 +65,9 @@ const MyResponsiveLine = () => {
                     orient: 'bottom',
                     tickSize: 5,
                     tickPadding: 5,
-                    tickRotation: 0,
-                    legend: 'transportation',
-                    legendOffset: 36,
+                    tickRotation: 90,
+                    legend: 'YYYY-MM',
+                    legendOffset: 80,
                     legendPosition: 'middle'
                 }}
                 axisLeft={{
@@ -56,7 +76,7 @@ const MyResponsiveLine = () => {
                     tickPadding: 5,
                     tickRotation: 0,
                     legend: 'count',
-                    legendOffset: -40,
+                    legendOffset: -50,
                     legendPosition: 'middle'
                 }}
                 pointSize={10}
