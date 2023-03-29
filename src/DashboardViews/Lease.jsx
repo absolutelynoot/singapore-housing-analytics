@@ -1,4 +1,4 @@
-import StackedBarChart from "../Components/StackedBarChartWithFilterButtons"
+import StackedBarChart from "../Components/StackedBarChartWithFilterFlatType"
 
 const Lease = () => {
   return (

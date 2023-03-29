@@ -1,45 +1,135 @@
 import { ResponsiveBar } from "@nivo/bar";
-// import { data } from "./sample-data/stacked-bar-chart-sample-data-lease";
 import { useState, useEffect } from "react";
+import "./styles/style.css";
 
 const BarChart = () => {
-  const [data, setData] = useState([])
-  const [filter, setFilter] = useState("all"); // initial filter is set to "all"
+  const [data, setData] = useState([]);
+  const [selectedFilters, setSelectedFilters] = useState(new Set());
 
-    const handleFetchData = async () => {
-        const response = await fetch('http://127.0.0.1:5000/hdb/lease_data');
-        if (response.ok) {
-            const temp = await response.json();
-            console.log(temp);
-            setData(temp);
-        }
+  const handleFetchData = async () => {
+    const response = await fetch("http://127.0.0.1:5000/hdb/lease_data");
+    if (response.ok) {
+      const temp = await response.json();
+      console.log(temp);
+      setData(temp);
     }
-    
-    useEffect(() => {
-        handleFetchData();
-    },[])
+  };
 
-    const filteredData =
-    filter === "all"
+  useEffect(() => {
+    handleFetchData();
+  }, []);
+
+  const handleCheckboxChange = (event) => {
+    const value = event.target.value;
+    const newSelectedFilters = new Set(selectedFilters);
+    if (newSelectedFilters.has(value)) {
+      newSelectedFilters.delete(value);
+    } else {
+      newSelectedFilters.add(value);
+    }
+    setSelectedFilters(newSelectedFilters);
+  };
+
+  const filteredData =
+    selectedFilters.size === 0
       ? data // show all data if no filter is selected
-      : data.filter((d) => d["Lease Bins"] === filter); // filter data by selected bin
+      : data.filter((d) => selectedFilters.has(d["Lease Bins"]));
+      console.log(data);
 
   return (
     <div style={{ height: "400px" }}>
       <h2>HDB Lease Analysis</h2>
-      <div>
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("94-90 years")}>94-90 years</button>
-        <button onClick={() => setFilter("89-85 years")}>89-85 years</button>
-        <button onClick={() => setFilter("79-75 years")}>79-75 years</button>
-        <button onClick={() => setFilter("74-70 years")}>74-70 years</button>
-        <button onClick={() => setFilter("69-65 years")}>69-65 years</button>
-        <button onClick={() => setFilter("64-60 years")}>64-60 years</button>
-        <button onClick={() => setFilter("59-55 years")}>59-55 years</button>
-        <button onClick={() => setFilter("54-50 years")}>54-50 years</button>
-        <button onClick={() => setFilter("49-45 years")}>49-45 years</button>
-        <button onClick={() => setFilter("44-40 years")}>44-40 years</button>
-
+      <div className="checkbox-container">
+        <label>
+          <input
+            type="checkbox"
+            value="94-90 years"
+            checked={selectedFilters.has("94-90 years")}
+            onChange={handleCheckboxChange}
+          />
+          94-90 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="89-85 years"
+            checked={selectedFilters.has("89-85 years")}
+            onChange={handleCheckboxChange}
+          />
+          89-85 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="79-75 years"
+            checked={selectedFilters.has("79-75 years")}
+            onChange={handleCheckboxChange}
+          />
+          79-75 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="74-70 years"
+            checked={selectedFilters.has("74-70 years")}
+            onChange={handleCheckboxChange}
+          />
+          74-70 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="69-65 years"
+            checked={selectedFilters.has("69-65 years")}
+            onChange={handleCheckboxChange}
+          />
+          69-65 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="64-60 years"
+            checked={selectedFilters.has("64-60 years")}
+            onChange={handleCheckboxChange}
+          />
+          64-60 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="59-55 years"
+            checked={selectedFilters.has("59-55 years")}
+            onChange={handleCheckboxChange}
+          />
+          59-55 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="54-50 years"
+            checked={selectedFilters.has("54-50 years")}
+            onChange={handleCheckboxChange}
+          />
+          54-50 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="49-45 years"
+            checked={selectedFilters.has("49-45 years")}
+            onChange={handleCheckboxChange}
+          />
+          49-45 years
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="44-40 years"
+            checked={selectedFilters.has("44-40 years")}
+            onChange={handleCheckboxChange}
+          />
+          44-40 years
+        </label>
       </div>
       <ResponsiveBar
         data={filteredData}

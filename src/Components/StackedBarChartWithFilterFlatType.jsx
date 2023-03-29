@@ -1,9 +1,10 @@
 import { ResponsiveBar } from "@nivo/bar";
 import { useState, useEffect } from "react";
+import "./styles/style.css";
 
 const BarChart = () => {
   const [data, setData] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState("");
+  const [selectedFilters, setSelectedFilters] = useState(new Set());
 
   const handleFetchData = async () => {
     const response = await fetch("http://127.0.0.1:5000/hdb/lease_data");
@@ -18,26 +19,100 @@ const BarChart = () => {
     handleFetchData();
   }, []);
 
-  const keyList = Object.keys(data).filter(key => key.endsWith("Color") === false);
-
   const handleCheckboxChange = (event) => {
-      const key = event.target.value;
-      const isChecked = event.target.checked;
-      if (isChecked) {
-          setSelectedKeys([...selectedKeys, key]);
-      } else {
-          setSelectedKeys(selectedKeys.filter(k => k !== key));
-      }
+    const value = event.target.value;
+    const newSelectedFilters = new Set(selectedFilters);
+    if (newSelectedFilters.has(value)) {
+      newSelectedFilters.delete(value);
+    } else {
+      newSelectedFilters.add(value);
+    }
+    setSelectedFilters(newSelectedFilters);
   };
 
-  // const filteredData = data.filter((d) => selectedKeys.includes(d.id));
+  const filteredData = 
+    selectedFilters.size === 0
+      ? data // show all data if no filter is selected
+      : data.filter((d) => {
+      for (const key of selectedFilters) {
+        if (d[key]) {
+          return true;
+        }
+      }
+      return false;
+    });
 
   return (
-    <div style={{ height: "500px" }}>
+    <div style={{ height: "400px" }}>
       <h2>HDB Lease Analysis</h2>
+      <div className="checkbox-container">
+        <label>
+          <input
+            type="checkbox"
+            value="EXECUTIVE"
+            checked={selectedFilters.has("EXECUTIVE")}
+            onChange={handleCheckboxChange}
+          />
+          EXECUTIVE
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="MULTI-GENERATION"
+            checked={selectedFilters.has("MULTI-GENERATION")}
+            onChange={handleCheckboxChange}
+          />
+          MULTI-GENERATION
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="5 ROOM"
+            checked={selectedFilters.has("5 ROOM")}
+            onChange={handleCheckboxChange}
+          />
+          5 ROOM
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="4 ROOM"
+            checked={selectedFilters.has("4 ROOM")}
+            onChange={handleCheckboxChange}
+          />
+          4 ROOM
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="3 ROOM"
+            checked={selectedFilters.has("3 ROOM")}
+            onChange={handleCheckboxChange}
+          />
+          3 ROOM
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="2 ROOM"
+            checked={selectedFilters.has("2 ROOM")}
+            onChange={handleCheckboxChange}
+          />
+          2 ROOM
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            value="1 ROOM"
+            checked={selectedFilters.has("1 ROOM")}
+            onChange={handleCheckboxChange}
+          />
+          1 ROOM
+        </label>
+      </div>
       <ResponsiveBar
-        data={data}
-        keys={selectedRoom ? [selectedRoom] : Object.keys(data).filter((key) => key !== "Lease Bins")}
+        data={filteredData}
+        keys={Array.from(selectedFilters)}
         indexBy="Lease Bins"
         margin={{ top: 50, right: 120, bottom: 50, left: 80 }}
         padding={0.3}
