@@ -18,7 +18,7 @@ const BarChartHDBAveragePriceSqm = () => {
   }, []);
 
   return (
-    <div style={{ height: "400px", marginBottom:"200px"}}>
+    <div style={{ height: "600px", marginBottom:"200px"}}>
       <h2>Town vs Average price per sqm</h2>
       <ResponsiveBar
         data={data}
