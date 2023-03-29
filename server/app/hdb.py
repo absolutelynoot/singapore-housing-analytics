@@ -94,25 +94,15 @@ def get_hdb_town_vs_avg_price():
 @app.route("/hdb/lease_data")
 def get_lease_data():
     try:
-        cur = mycol.aggregate([
-                {
-                    "$addFields": {
-                    "resale_price_double": { "$toDouble": "$resale_price" },
-                    "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
-                }
-                },
-                {
-                    "$addFields": {
-                    "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
-                }
-                },
+        # mycol = 
+        cur = mydb["hdb_lease_grouped"].aggregate([
                 {
                     "$group": {
                     "_id": {   
-                            "lease_commence_date": "$lease_commence_date",
+                            "lease_bins": "$lease_bins",
                             "flat_type": "$flat_type"
                     },
-                    "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                    "avg_resale_price_sqm": { "$avg": "$resale_price_per_sqm" }
                 }
                 }
             ])
@@ -122,41 +112,47 @@ def get_lease_data():
         # Iterate over each dictionary in the list
         for d in list(cur):
             # Get the lease commence date and flat type
-            lease_commence_date = d['_id']['lease_commence_date']
+            lease_bins = d['_id']['lease_bins']
             flat_type = d['_id']['flat_type']
+
             # Get the average resale price per square meter
             avg_resale_price_sqm = d['avg_resale_price_sqm']
-            # Check if the lease commence date is already in the result dictionary
-            if lease_commence_date not in result:
-                # If not, create a new dictionary for it
-                result[lease_commence_date] = {
-                    'Lease Commence Date': lease_commence_date,
-                    'EXECUTIVE': 0,
-                    'EXECUTIVEColor': 'hsl(293, 70%, 50%)',
-                    'MULTI-GENERATION': 0,
-                    'MULTI-GENERATIONColor': 'hsl(293, 70%, 50%)',
-                    '5 ROOM': 0,
-                    '5 ROOMColor': 'hsl(285, 70%, 50%)',
-                    '4 ROOM': 0,
-                    '4 ROOMColor': 'hsl(10, 70%, 50%)',
-                    '3 ROOM': 0,
-                    '3 ROOMColor': 'hsl(241, 70%, 50%)',
-                    '2 ROOM': 0,
-                    '2 ROOMColor': 'hsl(259, 70%, 50%)',
-                    '1 ROOM': 0,
-                    '1 ROOMColor': 'hsl(270, 70%, 50%)',
-                }
 
+            # Check if the lease commence date is already in the result dictionary
+            if (type(lease_bins) == str):
+                if lease_bins not in result:
+                    print(f"{lease_bins}, the type of lease_bins is {type(lease_bins)}\n")
+
+                    # If not, create a new dictionary for it
+                    result[lease_bins] = {
+                        'Lease Bins': lease_bins,
+                        'EXECUTIVE': 0,
+                        'EXECUTIVEColor': 'hsl(293, 70%, 50%)',
+                        'MULTI-GENERATION': 0,
+                        'MULTI-GENERATIONColor': 'hsl(293, 70%, 50%)',
+                        '5 ROOM': 0,
+                        '5 ROOMColor': 'hsl(285, 70%, 50%)',
+                        '4 ROOM': 0,
+                        '4 ROOMColor': 'hsl(10, 70%, 50%)',
+                        '3 ROOM': 0,
+                        '3 ROOMColor': 'hsl(241, 70%, 50%)',
+                        '2 ROOM': 0,
+                        '2 ROOMColor': 'hsl(259, 70%, 50%)',
+                        '1 ROOM': 0,
+                        '1 ROOMColor': 'hsl(270, 70%, 50%)',
+                    }
+                print(f"\nCREATED NEW DICTIONARY FOR LEASE BIN: {result[lease_bins]}\n")
             # Update the corresponding flat type with the average resale price
-            result[lease_commence_date][flat_type] = round(avg_resale_price_sqm,2)
-        
-        print(result)
+            result[lease_bins][flat_type] = round(avg_resale_price_sqm,2)
+            print(f"\nUPDATED LEASE BIN NUMBERS: {result[lease_bins]}\n")
+
+        print(f"\nTHE FINAL RESULT IS: \n{result}\n")
 
         # Convert the dictionary to a list
         response = list(result.values())
         
         #  Sort the lease bins list based on the "Lease Bins" key in the "data" list
-        response = sorted(response, key=lambda x: x["Lease Commence Date"], reverse=False)
+        # response = sorted(response, key=lambda x: x["Lease Bins"], reverse=False)
 
         # return jsonify(response), 200
         return jsonify(response), 200
