@@ -1,37 +1,43 @@
 import { ResponsiveBar } from "@nivo/bar";
-// import { data } from "./sample-data/stacked-bar-chart-sample-data-lease";
 import { useState, useEffect } from "react";
 
 const BarChart = () => {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
+  const [selectedRoom, setSelectedRoom] = useState("");
 
-    const handleFetchData = async () => {
-        const response = await fetch('http://127.0.0.1:5000/hdb/lease_data');
-        if (response.ok) {
-            const temp = await response.json();
-            console.log(temp);
-            setData(temp);
-        }
+  const handleFetchData = async () => {
+    const response = await fetch("http://127.0.0.1:5000/hdb/lease_data");
+    if (response.ok) {
+      const temp = await response.json();
+      console.log(temp);
+      setData(temp);
     }
-    
-    useEffect(() => {
-        handleFetchData();
-    },[])
+  };
+
+  useEffect(() => {
+    handleFetchData();
+  }, []);
+
+  const keyList = Object.keys(data).filter(key => key.endsWith("Color") === false);
+
+  const handleCheckboxChange = (event) => {
+      const key = event.target.value;
+      const isChecked = event.target.checked;
+      if (isChecked) {
+          setSelectedKeys([...selectedKeys, key]);
+      } else {
+          setSelectedKeys(selectedKeys.filter(k => k !== key));
+      }
+  };
+
+  // const filteredData = data.filter((d) => selectedKeys.includes(d.id));
 
   return (
     <div style={{ height: "500px" }}>
       <h2>HDB Lease Analysis</h2>
       <ResponsiveBar
         data={data}
-        keys={[
-            "EXECUTIVE", 
-            "MULTI-GENERATION", 
-            "5 ROOM", 
-            "4 ROOM", 
-            "3 ROOM", 
-            "2 ROOM", 
-            "1 ROOM"
-          ]}
+        keys={selectedRoom ? [selectedRoom] : Object.keys(data).filter((key) => key !== "Lease Bins")}
         indexBy="Lease Bins"
         margin={{ top: 50, right: 120, bottom: 50, left: 80 }}
         padding={0.3}
