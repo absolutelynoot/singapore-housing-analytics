@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import "./geoStyle.css"
 
@@ -11,6 +11,21 @@ export default function SimpleMap() {
     return <Map/>
     ;
   }
+
+function load_data(address){
+    address = address.toUpperCase().split(" ").join("_")
+    const handleFetchData = async () => {
+        const response = await fetch("http://127.0.0.1:5000/hdb/" + address);
+        if (response.ok) {
+          const temp = await response.json();
+          console.log(temp);
+          setData(temp);
+        }
+      };
+    useEffect(() => {
+    handleFetchData();
+    }, []);
+}
 
 function Map() {
     const points = useMemo(() => ([
@@ -47,9 +62,9 @@ function Map() {
         <div>
             <GoogleMap zoom={12} center={center} >
                 <div style={{ height: '80vh', width: '100%' }}>
-                    {points.map(({id, lat, lng}) => {
+                    {points.map(({id, lat, lng, title}) => {
                         return (
-                            <MarkerF position = {{ lat: lat, lng: lng }} label={id} onClick={onclick}/>
+                            <MarkerF key={id} position = {{ lat: lat, lng: lng }} label={id} onClick={e => load_data(title)}/>
                         );
                     })
                     }
@@ -58,20 +73,20 @@ function Map() {
             </GoogleMap>
             <div>This are the details of the location when you click on the markers</div>
             
-            <div class='container' style={{padding: "0px:"}}>
-                <div class='row'>
-                    <div class='col'>
+            <div className='container' style={{padding: "0px"}}>
+                <div className='row'>
+                    <div className='col'>
                         <p>Location Name: </p>
                         <p>Minimum Resale Price: </p>
                     </div>
-                    <div class='col'>
+                    <div className='col'>
 
                     </div>
-                    <div class='col'>
+                    <div className='col'>
                         <p>Average Price per Sq Ft: </p>
                         <p>Maximum Resale Price: </p>
                     </div>
-                    <div class='col'>
+                    <div className='col'>
 
                     </div>
                 </div>

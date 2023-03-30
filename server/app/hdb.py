@@ -20,6 +20,90 @@ def get_hdb_all():
     
     except:
         return 'Failed to connect to MongoDB'
+    
+
+# @app.route("/hdb/1")
+# def get_hdb_one():
+#     try:
+#         cur = mycol.find({})
+#         list_cur = list(cur)[0]
+#         return jsonify(list_cur)
+    
+#     except:
+#         return 'Failed to connect to MongoDB'
+
+
+@app.route("/hdb/<string:address>")
+def get_hdb_by_town(address):
+    try:
+        address = " ".join(address.split("_"))
+        cur = mycol.find(
+            {},
+                {
+                    "address": 1,
+                    "town": address,
+                    "resale_price": 1,
+                    "flat_model": 1,
+                    "flat_type": 1,
+                    "month": 1,
+                    "floor_area_sqm": 1
+                }
+            )
+        list_cur = list(cur)
+        
+        # return jsonify(list_cur)
+        
+        max_address = list_cur[0]["address"]
+        maximum_price = list_cur[0]["resale_price"]
+        max_flat_model = list_cur[0]["flat_model"]
+        max_flat_type = list_cur[0]["flat_type"]
+        max_month = list_cur[0]["month"]
+        max_floor_area_sqm = list_cur[0]["floor_area_sqm"]
+        
+        min_address = list_cur[0]["address"]
+        minimum_price = list_cur[0]["resale_price"]
+        min_flat_model = list_cur[0]["flat_model"]
+        min_flat_type = list_cur[0]["flat_type"]
+        min_month = list_cur[0]["month"]
+        min_floor_area_sqm = list_cur[0]["floor_area_sqm"]
+        
+        for each in list_cur:
+            if float(each["resale_price"]) < float(minimum_price):
+                minimum_price = each["resale_price"]
+                min_address = each["address"]
+                min_flat_model = each["flat_model"]
+                min_flat_type = each["flat_type"]
+                min_month = each["month"]
+                min_floor_area_sqm = each["floor_area_sqm"]
+                
+            elif float(each["resale_price"]) > float(maximum_price):
+                max_address = each["address"]
+                maximum_price = each["resale_price"]
+                max_flat_model = each["flat_model"]
+                max_flat_type = each["flat_type"]
+                max_month = each["month"]
+                max_floor_area_sqm = each["floor_area_sqm"]
+
+        results = {
+            "max_address": max_address,
+            "maximum_price": maximum_price,
+            "max_flat_model": max_flat_model,
+            "max_flat_type": max_flat_type,
+            "max_month": max_month,
+            "max_floor_area_sqm": max_floor_area_sqm,
+            
+            "min_address": min_address,
+            "minimum_price": minimum_price,
+            "min_flat_model": min_flat_model,
+            "min_flat_type": min_flat_type,
+            "min_month": min_month,
+            "min_floor_area_sqm": min_floor_area_sqm,
+        }
+        
+        return jsonify(results), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
 
 @app.route("/hdb/total_transactions_over_months")
 def get_hdb_total_transactions_over_months():
