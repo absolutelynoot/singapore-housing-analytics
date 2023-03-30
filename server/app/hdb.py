@@ -4,7 +4,6 @@ import requests
 from pymongo import MongoClient
 import certifi
 
-# client = MongoClient("mongodb+srv://group8:0000@housing.de7eplv.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
 client = MongoClient(app.config["MONGO_URI"], tlsCAFile=certifi.where())
 mydb = client["housing"]
 mycol = mydb["hdb_prices"]
