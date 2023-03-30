@@ -1,10 +1,9 @@
-import BumpChart from "../Components/BumpChart"
-import LeaseBarChart from "../Components/LeaseBarChart"
+import StackedBarChart from "../Components/StackedBarChartWithFilterFlatType"
 
 const Lease = () => {
   return (
     <>
-        <LeaseBarChart />
+        <StackedBarChart />
     </>
   )
 }
