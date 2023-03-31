@@ -6,15 +6,15 @@ const Pricing = () => {
   return (
     <div>
       <div className="container mb-5">
+        <LineChart2 />
+      </div>
+
+      <div className="container mb-5">
         <LineChart />
       </div>
 
       <div className="container mb-5">
         <BarChart />
-      </div>
-
-      <div className="container mb-5">
-        <LineChart2 />
       </div>
     </div>
 

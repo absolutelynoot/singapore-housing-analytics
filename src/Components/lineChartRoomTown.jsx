@@ -4,6 +4,10 @@ import { ResponsiveLine } from '@nivo/line'
 import { useState, useEffect } from "react";
 import Slider from '@mui/material/Slider';
 import Button from '@mui/material/Button';
+import MultiSelect from '@mui/material/Select';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -11,14 +15,10 @@ import Button from '@mui/material/Button';
 // website examples showcase many properties,
 // you'll often use just a few of them.
 
-function valuetext(value) {
-    return `${value}`;
-};
-
 const lineChartRoomTown = () => {
     const [data, setData] = useState([])
-    const [value, setValue] = useState([2017, 2023]);
-    // const [originalData, setOriginalData] = useState([])
+    const [originalData, setOriginalData] = useState([])
+    const [selectedOptions, setSelectedOptions] = useState([]);
 
     const handleFetchData = async () => {
         const response = await fetch('http://127.0.0.1:5000/hdb/room_town_avg_price_over_months');
@@ -26,47 +26,13 @@ const lineChartRoomTown = () => {
             const temp = await response.json();
             // console.log(temp);
             setData(temp);
-            // setOriginalData(temp);
+            setOriginalData(temp);
         }
     }
     
     useEffect(() => {
         handleFetchData();
     },[])
-
-    const handleChange = (event, newValue) => {
-        // console.log(newValue);
-        setValue(newValue);
-        
-        // console.log(originalData);
-        // setData(originalData);
-
-        // console.log(data[0].data);
-
-        const result = data[0].data;
-
-        // List of dictionary, filter for x values
-        const selected = [];
-        for (var i = value[0]; i <= value[1]; i++) {
-            for (var j = 1; j <= 12; j++) {
-                if (j < 10) {
-                    selected.push(i.toString() + "-0" + j.toString());
-                }
-                else {
-                    selected.push(i.toString() + "-" + j.toString());
-                }
-            }
-        };
-        
-        // console.log(selected);
-        const res = result.filter(({ x }) => selected.includes(x));
-
-        // console.log(res);
-        
-        data[0].data = res;
-        setData(data);
-
-    };
 
     const reset = () => {
         console.log("reset");
@@ -75,109 +41,162 @@ const lineChartRoomTown = () => {
         // handleChange();
     };
 
-    const filterTownFlat = () => {
-        console.log("yishun");
-        // console.log(selected);
-        const filteredData = data.filter(d => d["id"] == "YISHUN EXECUTIVE");
-        console.log(data);
-        console.log(filteredData);
-        
-        setData(filteredData);
+    // create xValues list to contain 2017 to 2023 in YYYY-MM format
 
+    function generateDates(startYear, endYear) {
+        const startDate = new Date(startYear, 0); // January 1st of startYear
+        const endDate = new Date(endYear + 1, 0); // January 1st of endYear + 1 (to include endYear)
+        const months = [];
+        for (let date = startDate; date < endDate; date.setMonth(date.getMonth() + 1)) {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // zero-padding month
+        const formattedDate = `${year}-${month}`;
+        months.push(formattedDate);
+        }
+        return months;
+    }
+    
+    const xValues = generateDates(2017, 2023);
+
+    const options = []
+
+    for (var i = 0; i < originalData.length; i++) {
+        options.push({ label: originalData[i]["id"], value: originalData[i]["id"] });
     };
 
+    // sort options based on label
+    options.sort((a, b) => (a.label > b.label) ? 1 : -1)
+
+    // const options = temp_options;
+
+    const handleSelectedOptionsChange = (event, value) => {
+        setSelectedOptions(value);
+
+        if (value.length == 0) {
+            console.log('reset');
+            // setData(originalData);
+        }
+        else {
+            const result = originalData;
+            // console.log(originalData);
+    
+            const filters = []
+            for (var i = 0; i < value.length; i++) {
+                filters.push(value[i].value);
+            };
+    
+            const filteredData = result.filter(d => filters.includes(d["id"]));
+            
+            setData(filteredData);
+        }
+      };
+
     return (
-        <div style={{height:"600px", marginBottom:"200px"}}>
-            <div className="title">Filter based on Years</div>
-            <Slider
-                getAriaLabel={() => 'Year Range'}
-                value={value}
-                min={2017}
-                max={2023}
-                onChange={handleChange}
-                valueLabelDisplay="auto"
-                getAriaValueText={valuetext}
+        <div style={{marginBottom:"800px"}}>
+            <h1>Search for price over months of estates</h1>
+        <div>
+            <Autocomplete
+                multiple
+                options={options}
+                getOptionLabel={(option) => option.label}
+                filterOptions={(options, state) =>
+                    options.filter((option) =>
+                    option.label.toLowerCase().includes(state.inputValue.toLowerCase())
+                    )
+                }
+                onChange={handleSelectedOptionsChange}
+                value={selectedOptions}
+                renderInput={(params) => (
+                    <TextField
+                    {...params}
+                    label="Select options"
+                    placeholder="Options"
+                    />
+                )}
             />
-            <Button
-            onClick={() => {reset()}}
-            >
-            Reset
-            </Button>
+        </div>
 
-            <Button
-            onClick={() => {filterTownFlat()}}
-            >
-            YISHUN EXECUTIVE
-            </Button>
-
-            <h1>Town-Room average price per sqm over Months</h1>
-            <ResponsiveLine
-                data={data}
-                margin={{ top: 50, right: 110, bottom: 150, left: 60 }}
-                xScale={{ type: 'point' }}
-                yScale={{
-                    type: 'linear',
-                    min: 'auto',
-                    max: 'auto',
-                    stacked: true,
-                    reverse: false
-                }}
-                yFormat=" >-.2f"
-                axisTop={null}
-                axisRight={null}
-                axisBottom={{
-                    orient: 'bottom',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 90,
-                    legend: 'YYYY-MM',
-                    legendOffset: 80,
-                    legendPosition: 'middle'
-                }}
-                axisLeft={{
-                    orient: 'left',
-                    tickSize: 5,
-                    tickPadding: 5,
-                    tickRotation: 0,
-                    legend: 'Avg Price per sqm ($)',
-                    legendOffset: -50,
-                    legendPosition: 'middle'
-                }}
-                pointSize={10}
-                pointColor={{ theme: 'background' }}
-                pointBorderWidth={2}
-                pointBorderColor={{ from: 'serieColor' }}
-                pointLabelYOffset={-12}
-                useMesh={true}
-                legends={[
-                    {
-                        anchor: 'bottom-right',
-                        direction: 'column',
-                        justify: false,
-                        translateX: 100,
-                        translateY: 0,
-                        itemsSpacing: 0,
-                        itemDirection: 'left-to-right',
-                        itemWidth: 80,
-                        itemHeight: 20,
-                        itemOpacity: 0.75,
-                        symbolSize: 12,
-                        symbolShape: 'circle',
-                        symbolBorderColor: 'rgba(0, 0, 0, .5)',
-                        effects: [
-                            {
-                                on: 'hover',
-                                style: {
-                                    itemBackground: 'rgba(0, 0, 0, .03)',
-                                    itemOpacity: 1
+            {selectedOptions.length > 0 && (
+                
+            <div style={{height:"600px", marginBottom:"200px"}}>
+                <h1>Town-Room average price per sqm over Months</h1>
+                <ResponsiveLine
+                    data={data}
+                    margin={{ top: 50, right: 200, bottom: 150, left: 60 }}
+                    xScale={{     
+                        type: 'time',
+                        format: '%Y-%m',
+                        precision: 'month'
+                    }}
+                    xFormat="time:%Y-%m"
+                    yScale={{
+                        type: 'linear',
+                        min: 'auto',
+                        max: 'auto',
+                        stacked: false,
+                        reverse: false
+                    }}
+                    yFormat=" >-.2f"
+                    axisTop={null}
+                    axisRight={null}
+                    axisBottom={{
+                        orient: 'bottom',
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 90,
+                        legend: 'YYYY-MM',
+                        legendOffset: 80,
+                        legendPosition: 'middle',
+                        tickValues: xValues.map(x => new Date(x)),
+                        format: '%b %Y'                        
+                    }}
+                    axisLeft={{
+                        orient: 'left',
+                        tickSize: 5,
+                        tickPadding: 5,
+                        tickRotation: 0,
+                        legend: 'Avg Price per sqm ($)',
+                        legendOffset: -50,
+                        legendPosition: 'middle'
+                    }}
+                    pointSize={10}
+                    pointColor={{ theme: 'background' }}
+                    pointBorderWidth={2}
+                    pointBorderColor={{ from: 'serieColor' }}
+                    pointLabelYOffset={-12}
+                    useMesh={true}
+                    legends={[
+                        {
+                            anchor: 'bottom-right',
+                            direction: 'column',
+                            justify: false,
+                            translateX: 100,
+                            translateY: 0,
+                            itemsSpacing: 0,
+                            itemDirection: 'left-to-right',
+                            itemWidth: 80,
+                            itemHeight: 20,
+                            itemOpacity: 0.75,
+                            symbolSize: 12,
+                            symbolShape: 'circle',
+                            symbolBorderColor: 'rgba(0, 0, 0, .5)',
+                            effects: [
+                                {
+                                    on: 'hover',
+                                    style: {
+                                        itemBackground: 'rgba(0, 0, 0, .03)',
+                                        itemOpacity: 1
+                                    }
                                 }
-                            }
-                        ]
-                    }
-                ]}
-            />
+                            ]
+                        }
+                    ]}
+                />
+            </div>
+            )}
         </div>
     );
 };
 
 export default lineChartRoomTown;
+
