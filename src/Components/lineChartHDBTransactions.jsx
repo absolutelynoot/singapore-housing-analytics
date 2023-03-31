@@ -35,10 +35,9 @@ const MyResponsiveLine = () => {
     },[])
 
     const handleChange = (event, newValue) => {
-        // console.log(newValue);
+        
         setValue(newValue);
 
-        console.log(originalData);
         const result = originalData[0].data;
 
         // List of dictionary, filter for x values
@@ -65,7 +64,6 @@ const MyResponsiveLine = () => {
         console.log("reset");
         setValue([2017, 2023]);
         handleFetchData();
-        // handleChange();
     };
 
     return (
