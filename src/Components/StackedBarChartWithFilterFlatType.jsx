@@ -82,178 +82,143 @@ const BarChart = () => {
 
   return (
     <div style={{ height: "400px" }}>
-      <h2>HDB Lease Analysis</h2>
       <div className="checkbox-container">
         {/* CHECKBOX BUTTONS FOR FLAT TYPE */}
-        <div>
-          <h4>Flat Type:</h4>
-          <label>
-            <input
-              type="checkbox"
-              value="EXECUTIVE"
-              checked={selectedFilters.has("EXECUTIVE")}
-              onChange={handleCheckboxChange}
-            />
-            EXECUTIVE
-          </label>
-          <label>
-            <input
-              type="checkbox"
+        <div className="row mb-3">
+          <h4 class="fw-semibold">Select HDB Flat Type:</h4>
+          <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" id="btncheck1" checked={selectedFilters.has("EXECUTIVE")}
+              onChange={handleCheckboxChange} value="EXECUTIVE" autocomplete="off"/>
+            <label class="btn btn-outline-primary" for="btncheck1">EXECUTIVE</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off"
               value="MULTI-GENERATION"
               checked={selectedFilters.has("MULTI-GENERATION")}
               onChange={handleCheckboxChange}
             />
-            MULTI-GENERATION
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btncheck2">MULTI-GENERATION</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck3" autocomplete="off"
               value="5 ROOM"
               checked={selectedFilters.has("5 ROOM")}
               onChange={handleCheckboxChange}
             />
-            5 ROOM
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btncheck3">5-ROOM</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck4" autocomplete="off"
               value="4 ROOM"
               checked={selectedFilters.has("4 ROOM")}
               onChange={handleCheckboxChange}
             />
-            4 ROOM
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btncheck4">4-ROOM</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck5" autocomplete="off"
               value="3 ROOM"
               checked={selectedFilters.has("3 ROOM")}
               onChange={handleCheckboxChange}
             />
-            3 ROOM
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btncheck5">3-ROOM</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck6" autocomplete="off"
               value="2 ROOM"
               checked={selectedFilters.has("2 ROOM")}
               onChange={handleCheckboxChange}
             />
-            2 ROOM
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btncheck6">2-ROOM</label>
+
+            <input type="checkbox" class="btn-check" id="btncheck7" autocomplete="off"
               value="1 ROOM"
               checked={selectedFilters.has("1 ROOM")}
               onChange={handleCheckboxChange}
             />
-            1 ROOM
-          </label>
+            <label class="btn btn-outline-primary" for="btncheck7">1-ROOM/STUDIO</label>
+          </div>
+          
         </div>
         {/* CHECKBOX BUTTONS FOR LEASE BINS */}
-        <div>
-          <h4>Lease Bins:</h4>
-          <label>
-            <input
-              type="checkbox"
+        <div className="row">
+          <h4 className="fw-semibold">Select Lease Group (Bins):</h4>
+          <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+            <input type="checkbox" class="btn-check" id="btn2check1" autocomplete="off"
               value="94-90 years"
               checked={selectedLeaseBins.has("94-90 years")}
-              onChange={handleLeaseBinChange}
-            />
-            94-90 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+              onChange={handleLeaseBinChange} />
+            <label class="btn btn-outline-primary" for="btn2check1">94-90 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check2" autocomplete="off"
               value="89-85 years"
               checked={selectedLeaseBins.has("89-85 years")}
               onChange={handleLeaseBinChange}
             />
-            89-85 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check2">89-85 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check3" autocomplete="off"
               value="84-80 years"
               checked={selectedLeaseBins.has("84-80 years")}
               onChange={handleLeaseBinChange}
             />
-            84-80 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check3">84-80 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check4" autocomplete="off"
               value="79-75 years"
               checked={selectedLeaseBins.has("79-75 years")}
               onChange={handleLeaseBinChange}
             />
-            79-75 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check4">79-75 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check5" autocomplete="off"
               value="74-70 years"
               checked={selectedLeaseBins.has("74-70 years")}
               onChange={handleLeaseBinChange}
             />
-            74-70 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check5">74-70 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check6" autocomplete="off"
               value="69-65 years"
               checked={selectedLeaseBins.has("69-65 years")}
               onChange={handleLeaseBinChange}
             />
-            69-65 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check6">69-65 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check7" autocomplete="off"
               value="64-60 years"
               checked={selectedLeaseBins.has("64-60 years")}
               onChange={handleLeaseBinChange}
             />
-            64-60 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check7">64-60 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check8" autocomplete="off"
               value="59-55 years"
               checked={selectedLeaseBins.has("59-55 years")}
               onChange={handleLeaseBinChange}
             />
-            59-55 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check8">59-55 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check81" autocomplete="off"
               value="54-50 years"
               checked={selectedLeaseBins.has("54-50 years")}
               onChange={handleLeaseBinChange}
             />
-            54-50 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check81">54-50 years</label>
+
+            <input type="checkbox" class="btn-check" id="btn2check9" autocomplete="off"
               value="49-45 years"
               checked={selectedLeaseBins.has("49-45 years")}
               onChange={handleLeaseBinChange}
             />
-            49-45 years
-          </label>
-          <label>
-            <input
-              type="checkbox"
+            <label class="btn btn-outline-primary" for="btn2check9">49-45 years</label>
+
+
+            <input type="checkbox" class="btn-check" id="btn2check10" autocomplete="off"
               value="44-40 years"
               checked={selectedLeaseBins.has("44-40 years")}
               onChange={handleLeaseBinChange}
             />
-            44-40 years
-          </label>
+            <label class="btn btn-outline-primary" for="btn2check10">44-40 years</label>
+          </div>
+          
         </div>
+        
       </div>
       <ResponsiveBar
         data={filteredData}
