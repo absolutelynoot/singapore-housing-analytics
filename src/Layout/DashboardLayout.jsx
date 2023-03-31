@@ -4,7 +4,7 @@ import Sidenav from '../Components/Sidenav';
 
 const DashboardLayout = ({sideNavData}) => {
   return (
-    <div className="container-fluid">
+    <div className="container-fluid ms-5 me-5">
         <div className="row">
             <div className="col-2">
                 <Sidenav sideNavData={sideNavData}/>
