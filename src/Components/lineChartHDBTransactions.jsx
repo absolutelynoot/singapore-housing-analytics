@@ -18,7 +18,7 @@ function valuetext(value) {
 const MyResponsiveLine = () => {
     const [data, setData] = useState([])
     const [value, setValue] = useState([2017, 2023]);
-    // const [originalData, setOriginalData] = useState([])
+    const [originalData, setOriginalData] = useState([])
 
     const handleFetchData = async () => {
         const response = await fetch('http://127.0.0.1:5000/hdb/total_transactions_over_months');
@@ -26,7 +26,7 @@ const MyResponsiveLine = () => {
             const temp = await response.json();
             // console.log(temp);
             setData(temp);
-            // setOriginalData(temp);
+            setOriginalData(temp);
         }
     }
     
@@ -37,13 +37,9 @@ const MyResponsiveLine = () => {
     const handleChange = (event, newValue) => {
         // console.log(newValue);
         setValue(newValue);
-        
-        // console.log(originalData);
-        // setData(originalData);
 
-        // console.log(data[0].data);
-
-        const result = data[0].data;
+        console.log(originalData);
+        const result = originalData[0].data;
 
         // List of dictionary, filter for x values
         const selected = [];
@@ -60,12 +56,9 @@ const MyResponsiveLine = () => {
         
         // console.log(selected);
         const res = result.filter(({ x }) => selected.includes(x));
-
-        // console.log(res);
         
-        data[0].data = res;
-        setData(data);
-
+        const newData = [{...data[0], data: res}];
+        setData(newData);
     };
 
     const reset = () => {
