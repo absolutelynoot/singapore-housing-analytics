@@ -3,6 +3,7 @@ from flask import jsonify
 import requests
 from pymongo import MongoClient
 import certifi
+import hashlib
 
 client = MongoClient(app.config["MONGO_URI"], tlsCAFile=certifi.where())
 mydb = client["housing"]
@@ -235,6 +236,80 @@ def get_lease_data():
 
         # return jsonify(response), 200
         return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+@app.route("/hdb/room_town_avg_price_over_months")
+def get_room_town_avg_price_over_months():
+    try:
+        cur = mycol.aggregate([
+                {
+                    "$addFields": {
+                    "resale_price_double": { "$toDouble": "$resale_price" },
+                    "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+                },
+                {
+                    "$addFields": {
+                    "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+                },
+                {
+                    "$group": {
+                    "_id": {
+                            "date": "$month",
+                            "town": "$town",
+                            "flat_type": "$flat_type"
+                    },
+                    "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+                }
+            ])
+        
+        # Create a dictionary to store the data in the desired format
+        converted_data = {}
+
+        # Loop through the original data
+        for d in cur:
+            # Get the relevant fields from the original data
+            date = d["_id"]["date"]
+            flat_type = d["_id"]["flat_type"]
+            town = d["_id"]["town"]
+            avg_resale_price_sqm = d["avg_resale_price_sqm"]
+            
+            # Create an ID for the data point
+            id = town + ' ' + flat_type
+            # Generate a unique integer for the town name using a hash function
+            town_hash = int(hashlib.sha256(town.encode('utf-8')).hexdigest(), 16) % 10**8
+    
+            # Use the town hash to generate a unique color
+            color = "hsl({}, 70%, 50%)".format(town_hash % 360)
+
+            # Create a new data point in the converted data dictionary
+            if id not in converted_data:
+                converted_data[id] = {
+                    "id": id,
+                    "color": color,
+                    "data": []
+                }
+            
+            # Add the current data point to the relevant data array in the converted data dictionary
+            converted_data[id]["data"].append({"x": date, "y": avg_resale_price_sqm})
+
+        # Convert the dictionary to a list and sort by ID
+        converted_data = list(converted_data.values())
+        # converted_data.sort(key=lambda x: x["id"])
+
+        # Print the converted data
+        # print(converted_data)
+
+        # Sort the data list based on the "x" key in the "data" list
+        for data in converted_data:
+            data["data"] = sorted(data["data"], key=lambda d: d["x"])
+        # converted_data[0]["data"] = sorted(converted_data[0]["data"], key=lambda d: d["x"])
+
+        return jsonify(converted_data), 200
     
     except:
         return 'Failed to connect to MongoDB'

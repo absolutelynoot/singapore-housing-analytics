@@ -15,18 +15,18 @@ function valuetext(value) {
     return `${value}`;
 };
 
-const MyResponsiveLine = () => {
+const lineChartRoomTown = () => {
     const [data, setData] = useState([])
     const [value, setValue] = useState([2017, 2023]);
-    const [originalData, setOriginalData] = useState([])
+    // const [originalData, setOriginalData] = useState([])
 
     const handleFetchData = async () => {
-        const response = await fetch('http://127.0.0.1:5000/hdb/total_transactions_over_months');
+        const response = await fetch('http://127.0.0.1:5000/hdb/room_town_avg_price_over_months');
         if (response.ok) {
             const temp = await response.json();
             // console.log(temp);
             setData(temp);
-            setOriginalData(temp);
+            // setOriginalData(temp);
         }
     }
     
@@ -35,10 +35,15 @@ const MyResponsiveLine = () => {
     },[])
 
     const handleChange = (event, newValue) => {
-        
+        // console.log(newValue);
         setValue(newValue);
+        
+        // console.log(originalData);
+        // setData(originalData);
 
-        const result = originalData[0].data;
+        // console.log(data[0].data);
+
+        const result = data[0].data;
 
         // List of dictionary, filter for x values
         const selected = [];
@@ -55,15 +60,30 @@ const MyResponsiveLine = () => {
         
         // console.log(selected);
         const res = result.filter(({ x }) => selected.includes(x));
+
+        // console.log(res);
         
-        const newData = [{...data[0], data: res}];
-        setData(newData);
+        data[0].data = res;
+        setData(data);
+
     };
 
     const reset = () => {
         console.log("reset");
         setValue([2017, 2023]);
         handleFetchData();
+        // handleChange();
+    };
+
+    const filterTownFlat = () => {
+        console.log("yishun");
+        // console.log(selected);
+        const filteredData = data.filter(d => d["id"] == "YISHUN EXECUTIVE");
+        console.log(data);
+        console.log(filteredData);
+        
+        setData(filteredData);
+
     };
 
     return (
@@ -84,7 +104,13 @@ const MyResponsiveLine = () => {
             Reset
             </Button>
 
-            <h1>Total Transactions vs Months</h1>
+            <Button
+            onClick={() => {filterTownFlat()}}
+            >
+            YISHUN EXECUTIVE
+            </Button>
+
+            <h1>Town-Room average price per sqm over Months</h1>
             <ResponsiveLine
                 data={data}
                 margin={{ top: 50, right: 110, bottom: 150, left: 60 }}
@@ -113,7 +139,7 @@ const MyResponsiveLine = () => {
                     tickSize: 5,
                     tickPadding: 5,
                     tickRotation: 0,
-                    legend: 'count',
+                    legend: 'Avg Price per sqm ($)',
                     legendOffset: -50,
                     legendPosition: 'middle'
                 }}
@@ -154,4 +180,4 @@ const MyResponsiveLine = () => {
     );
 };
 
-export default MyResponsiveLine;
+export default lineChartRoomTown;
