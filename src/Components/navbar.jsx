@@ -42,10 +42,11 @@ const Navbar = () => {
               </div></Link>
             </li>
             <li className="nav-item mx-3">
-              <Link to={`/private-property`}>
-              <div className="nav-link">
-                Private Property
-              </div></Link>
+              {/* <Link to={`/private-property`}> */}
+              <div className="nav-link pe-none disabled" >
+                Private Property (Coming soon)
+              </div>
+              {/* </Link> */}
             </li>
             <li className="nav-item ms-lg-3 p-0 align-self-xl-center align-self-start">
               <button className="btn btn-danger fw-bold" type="submit">

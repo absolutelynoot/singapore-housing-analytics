@@ -31,9 +31,9 @@ const Home = () => {
     ],
     [
       PpCardImg,
-      "Private Property Analytics",
+      "Private Property Analytics (Coming soon)",
       "Compare prices, resale volume of flats and ammenities",
-      "/private-property",
+      "#cards",
     ],
   ];
 
@@ -56,7 +56,7 @@ const Home = () => {
         <h2 className="pb-2">
           Choose between HDB and Private Property
         </h2>
-        <div className="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5  mb-5">
+        <div className="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5  mb-5" id="cards">
           {cardData.map((card) => {
             return (
               <CardFeatures
