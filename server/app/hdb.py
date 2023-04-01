@@ -37,12 +37,17 @@ def get_hdb_all():
 @app.route("/hdb/<string:address>")
 def get_hdb_by_town(address):
     try:
-        address = " ".join(address.split("_"))
+
+        if address == "KALLANG_WHAMPOA":
+            address = "/".join(address.split("_"))
+        else:
+            address = " ".join(address.split("_"))
+
         cur = mycol.find(
-            {},
+            { "town": address },
                 {
                     "address": 1,
-                    "town": address,
+                    "town": 1,
                     "resale_price": 1,
                     "flat_model": 1,
                     "flat_type": 1,
@@ -50,6 +55,8 @@ def get_hdb_by_town(address):
                     "floor_area_sqm": 1
                 }
             )
+        
+        # cur = mycol.distinct("town")
         list_cur = list(cur)
         
         # return jsonify(list_cur)
@@ -99,6 +106,8 @@ def get_hdb_by_town(address):
             "min_flat_type": min_flat_type,
             "min_month": min_month,
             "min_floor_area_sqm": min_floor_area_sqm,
+
+            "town": address
         }
         
         return jsonify(results), 200
