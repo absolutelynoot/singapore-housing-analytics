@@ -27,14 +27,18 @@ const CardList = ({ title, data }) => {
                   <span> ({item.unit_sold.street_name})</span>
                 </div>
                 <div>
-                  Flat Model: {item.unit_sold.flat_model} | Flat Type:{" "}
-                  {item.unit_sold.flat_type}
+                  Flat Model: {item.unit_sold.flat_model} 
                 </div>
                 <div>
-                  Remaining Lease: {item.unit_sold.remaining_lease} year | Floor
-                  area: {item.unit_sold.floor_area_sqm} sqm
+                  Flat Type: {item.unit_sold.flat_type}
                 </div>
-                <div>Resale Price: SGD {item.unit_sold.resale_price}</div>
+                <div>
+                  Remaining Lease: {item.unit_sold.remaining_lease} year 
+                </div>
+                <div>
+                  Floor area: {item.unit_sold.floor_area_sqm} sqm
+                </div>
+                <div>Resale Price: <span className="fw-semibold">SGD {item.unit_sold.resale_price}</span></div>
               </li>
             ))}
           </>
