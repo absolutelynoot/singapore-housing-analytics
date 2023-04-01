@@ -91,9 +91,9 @@ const MyResponsiveLine = () => {
                 xScale={{ type: 'point' }}
                 yScale={{
                     type: 'linear',
-                    min: 'auto',
+                    min: 0,
                     max: 'auto',
-                    stacked: true,
+                    stacked: false,
                     reverse: false
                 }}
                 yFormat=" >-.2f"

@@ -145,7 +145,7 @@ const lineChartRoomTown = () => {
             xFormat="time:%Y-%m"
             yScale={{
               type: "linear",
-              min: "auto",
+              min: 0,
               max: "auto",
               stacked: false,
               reverse: false,

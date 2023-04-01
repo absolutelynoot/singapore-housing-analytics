@@ -98,14 +98,14 @@ function Map() {
                             <p>Max Address: {temp.max_address}</p>
                             <p>Most Expensive Flat Model: {temp.max_flat_model}</p>
                             <p>Most Expensive Flat Type: {temp.max_flat_type}</p>
-                            <p>Most Expensive Flat Level: {temp.max_floor_area_sqm}</p>
+                            <p>Most Expensive Flat Size: {temp.max_floor_area_sqm} sqm</p>
                             <p>Price: ${temp.maximum_price}</p>
                         </div>
                         <div className='col'>
                             <p>Max Address: {temp.min_address}</p>
                             <p>Most Expensive Flat Model: {temp.min_flat_model}</p>
                             <p>Most Expensive Flat Type: {temp.min_flat_type}</p>
-                            <p>Most Expensive Flat Level: {temp.min_floor_area_sqm}</p>
+                            <p>Most Expensive Flat Size: {temp.min_floor_area_sqm}sqm</p>
                             <p>Price: ${temp.minimum_price}</p>
                         </div>
 
