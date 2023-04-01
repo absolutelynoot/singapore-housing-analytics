@@ -4,14 +4,15 @@ import LeaseSwarmPlot from "../Components/SwarmPlotLeaseByTown"
 
 const Lease = () => {
   return (
-    <>
-      <div className="container mb-5">
-        {/* <StackedBarChart /> */}
+    <div style={{height:"1200px"}}>
+      <div className="mb-5 h-50">
+        <StackedBarChart />
       </div>
-      <div className="container mb-5">
+      <div className="mb-5">
+        <h3 className="fw-semibold">Swarm Plot of price against Lease Remaining (Years)</h3>
         <LeaseSwarmPlot />
       </div>
-    </>
+    </div>
   )
 }
 
