@@ -313,3 +313,37 @@ def get_room_town_avg_price_over_months():
     
     except:
         return 'Failed to connect to MongoDB'
+    
+
+@app.route("/hdb/avg_price_sqm_by_house_type")
+def get_avg_price_sqm_by_house_type():
+    try:
+        
+        cur = mycol.aggregate([
+            {
+                "$addFields": {
+                "resale_price_double": { "$toDouble": "$resale_price" },
+                "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+            },
+            {
+                "$addFields": {
+                "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+            },
+            {
+                "$group": {
+                "_id": "$flat_type",
+                "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+            }
+        ])
+        
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'

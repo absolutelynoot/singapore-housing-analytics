@@ -3,6 +3,8 @@ import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import "./geoStyle.css"
 
 export default function SimpleMap() {
+    const [data, setData] = useState([]);
+
     const { isLoaded } = useLoadScript({
       googleMapsApiKey: "",
     });
@@ -10,18 +12,22 @@ export default function SimpleMap() {
     if (!isLoaded) return <div>Loading...</div>;
     return <Map/>
     ;
-  }
+
+    const load_data = (event, title) => {
+        console.log(title);
+    }
+}
 
 function load_data(address){
     address = address.toUpperCase().split(" ").join("_")
     const handleFetchData = async () => {
         const response = await fetch("http://127.0.0.1:5000/hdb/" + address);
         if (response.ok) {
-          const temp = await response.json();
-          console.log(temp);
-          setData(temp);
+        const temp = await response.json();
+        console.log(temp);
+        setData(temp);
         }
-      };
+    };
     useEffect(() => {
     handleFetchData();
     }, []);
@@ -64,7 +70,9 @@ function Map() {
                 <div style={{ height: '80vh', width: '100%' }}>
                     {points.map(({id, lat, lng, title}) => {
                         return (
-                            <MarkerF key={id} position = {{ lat: lat, lng: lng }} label={id} onClick={e => load_data(title)}/>
+                            // <MarkerF key={id} position = {{ lat: lat, lng: lng }} label={id} onClick={e => load_data(title)}/>
+                            <MarkerF key={id} position = {{ lat: lat, lng: lng }} label={id} onClick={load_data(title)}/>
+
                         );
                     })
                     }
