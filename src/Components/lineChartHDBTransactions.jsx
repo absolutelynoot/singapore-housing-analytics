@@ -67,8 +67,8 @@ const MyResponsiveLine = () => {
     };
 
     return (
-        <div style={{height:"600px", marginBottom:"200px"}}>
-            <div className="title">Filter based on Years</div>
+        <div style={{height:"600px"}}>
+            <h3 className="title fw-bold">Date Filter (Year)</h3>
             <Slider
                 getAriaLabel={() => 'Year Range'}
                 value={value}
@@ -84,7 +84,7 @@ const MyResponsiveLine = () => {
             Reset
             </Button>
 
-            <h1>Total Transactions vs Months</h1>
+            <h3>Total Transactions vs Months</h3>
             <ResponsiveLine
                 data={data}
                 margin={{ top: 50, right: 110, bottom: 150, left: 60 }}

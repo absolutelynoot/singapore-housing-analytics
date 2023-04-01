@@ -347,3 +347,269 @@ def get_avg_price_sqm_by_house_type():
     
     except:
         return 'Failed to connect to MongoDB'
+    
+@app.route("/hdb/total_units_sold")
+def get_total_units_sold():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$group": {
+                "_id": "$flat_type",
+                "total_units_sold": { "$sum": 1 }
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+
+@app.route("/hdb/most_expensive_units_sold_by_house_type")
+def get_most_expensive_unit_sold_by_house_type():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$sort": {
+                    "resale_price": -1
+                }
+            },
+            {
+                "$group": {
+                "_id": "$flat_type",
+                "most_expensive_unit_sold": { 
+                        "$first": {
+                            "resale_price": "$resale_price",
+                            "town": "$town",
+                            "street_name": "$street_name",
+                            "flat_model": "$flat_model",
+                            "floor_area_sqm": "$floor_area_sqm",
+                            "remaining_lease": "$remaining_lease"
+                        }
+                    }
+                }
+            },
+            {
+                "$sort": {
+                    "_id": 1
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+
+@app.route("/hdb/cheapest_units_sold_by_house_type")
+def get_cheapest_unit_sold_by_house_type():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$sort": {
+                "resale_price": 1
+                }
+            },
+            {
+                "$group": {
+                "_id": "$flat_type",
+                "cheapest_unit_sold": { 
+                        "$first": {
+                            "resale_price": "$resale_price",
+                            "town": "$town",
+                            "street_name": "$street_name",
+                            "flat_model": "$flat_model",
+                            "floor_area_sqm": "$floor_area_sqm",
+                            "remaining_lease": "$remaining_lease"
+                        }
+                    }
+                }
+            },
+            {
+                "$sort": {
+                    "_id": 1
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+
+@app.route("/hdb/most_expensive_unit_by_town")
+def get_most_expensive_unit_by_town():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$sort": {
+                    "resale_price": -1
+                }
+            },
+            {
+                "$group": {
+                "_id": "$town",
+                "most_expensive_unit_sold": { 
+                        "$first": {
+                            "resale_price": "$resale_price",
+                            "flat_type": "$flat_type",
+                            "street_name": "$street_name",
+                            "flat_model": "$flat_model",
+                            "floor_area_sqm": "$floor_area_sqm",
+                            "remaining_lease": "$remaining_lease"
+                        }
+                    }
+                }
+            },
+            {
+                "$sort": {
+                    "resale_price": 1
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+
+
+@app.route("/hdb/cheapest_unit_by_town")
+def get_cheapest_unit_by_town():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$sort": {
+                "resale_price": 1
+                }
+            },
+            {
+                "$group": {
+                "_id": "$town",
+                "cheapest_unit_sold": { 
+                        "$first": {
+                            "resale_price": "$resale_price",
+                            "flat_type": "$flat_type",
+                            "street_name": "$street_name",
+                            "flat_model": "$flat_model",
+                            "floor_area_sqm": "$floor_area_sqm",
+                            "remaining_lease": "$remaining_lease"
+                        }
+                    }
+                }
+            },
+            {
+                "$sort": {
+                    "resale_price": 1
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+@app.route("/hdb/average_price_sqm_by_town")
+def get_average_price_sqm_by_town():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$addFields": {
+                "resale_price_double": { "$toDouble": "$resale_price" },
+                "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+            },
+            {
+                "$addFields": {
+                "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+            },
+            {
+                "$group": {
+                "_id": "$town",
+                "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+            },
+            {
+                "$sort": {
+                    "avg_resale_price_sqm": 1
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+@app.route("/hdb/average_price_sqm_by_storey_range")
+def get_average_price_sqm_by_storey_range():
+    try:
+
+        cur = mycol.aggregate([
+            {
+                "$addFields": {
+                "resale_price_double": { "$toDouble": "$resale_price" },
+                "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+            },
+            {
+                "$addFields": {
+                "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+            },
+            {
+                "$group": {
+                "_id": "$storey_range",
+                "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+            },
+            {
+                "$sort": {
+                    "avg_resale_price_sqm": 1
+                }
+            }
+        ])
+
+        list_cur = list(cur)
+
+        response = {"Result": list_cur}
+
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
