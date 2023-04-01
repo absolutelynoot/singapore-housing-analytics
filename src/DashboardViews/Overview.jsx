@@ -85,23 +85,24 @@ const Overview = () => {
     const response = await fetch(
       "http://localhost:5000/hdb/most_expensive_unit_by_town"
     );
-
+  
     if (response.ok) {
       let data = await response.json();
-
+  
       // format resale_price to 0 decimal places and thousand separators
       let temp = data.Result.map((item) => ({
         ...item,
         unit_sold: {
           ...item.unit_sold,
-          resale_price: item.unit_sold.resale_price.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          resale_price: Number(item.unit_sold.resale_price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ","),
         },
       }));
-
+  
       setMostExpensiveUnitByTown(temp);
       console.log(temp);
     }
   };
+  
 
   const fetchCheapestUnitByTown = async () => {
     const response = await fetch(
@@ -116,7 +117,7 @@ const Overview = () => {
         ...item,
         unit_sold: {
           ...item.unit_sold,
-          resale_price: item.unit_sold.resale_price.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          resale_price: Number(item.unit_sold.resale_price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ","),
         },
 
       }));
@@ -163,7 +164,7 @@ const Overview = () => {
           )}
         </div>
         <div className="col">
-          {averageSqmPrice == 0 ? (
+          {averageLeaseRemaining == 0 ? (
             <ScorecardPlaceholder />
           ) : (
             <Scorecard
@@ -188,6 +189,12 @@ const Overview = () => {
           <CardList
             title="Most Expensive Unit Sold by Town"
             data={mostExpensiveUnitByTown}
+          />
+        </div>
+        <div className="col">
+          <CardList
+            title="Cheapest Unit Sold by Town"
+            data={cheapestUnitByTown}
           />
         </div>
       </div>

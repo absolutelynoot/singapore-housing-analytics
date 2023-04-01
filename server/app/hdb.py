@@ -531,16 +531,11 @@ def get_most_expensive_unit_by_town():
 
         cur = mycol.aggregate([
             {
-                "$sort": {
-                    "resale_price": -1
-                }
-            },
-            {
                 "$group": {
                 "_id": "$town",
                 "unit_sold": { 
-                        "$first": {
-                            "resale_price": "$resale_price",
+                        "$max": {
+                            "resale_price": {"$toDouble": "$resale_price"},
                             "flat_type": "$flat_type",
                             "street_name": "$street_name",
                             "flat_model": "$flat_model",
@@ -548,6 +543,11 @@ def get_most_expensive_unit_by_town():
                             "remaining_lease": "$remaining_lease"
                         }
                     }
+                }
+            },
+            {
+                "$sort": {
+                    "_id": 1
                 }
             }
         ])
@@ -565,19 +565,13 @@ def get_most_expensive_unit_by_town():
 @app.route("/hdb/cheapest_unit_by_town")
 def get_cheapest_unit_by_town():
     try:
-
         cur = mycol.aggregate([
             {
-                "$sort": {
-                "resale_price": 1
-                }
-            },
-            {
                 "$group": {
-                "_id": "$town",
-                "unit_sold": { 
-                        "$first": {
-                            "resale_price": "$resale_price",
+                    "_id": "$town",
+                    "unit_sold": {
+                        "$min": {
+                            "resale_price": {"$toDouble": "$resale_price"},
                             "flat_type": "$flat_type",
                             "street_name": "$street_name",
                             "flat_model": "$flat_model",
@@ -587,21 +581,15 @@ def get_cheapest_unit_by_town():
                     }
                 }
             },
-            {
-                "$sort": {
-                    "resale_price": -1
-                }
-            }
+            { "$sort": { "_id": 1 } }
         ])
-
         list_cur = list(cur)
-
         response = {"Result": list_cur}
-
         return jsonify(response), 200
-    
     except:
         return 'Failed to connect to MongoDB'
+
+
     
 @app.route("/hdb/average_price_sqm_by_town")
 def get_average_price_sqm_by_town():
