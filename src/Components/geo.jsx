@@ -1,4 +1,5 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
+
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
 import "./geoStyle.css"
 
