@@ -1,6 +1,7 @@
 import LineChart from "../Components/LineChartHDBTransactions"
 import LineChart2 from "../Components/lineChartRoomTown"
 import BarChart from "../Components/BarChartHDBAveragePriceSQM"
+import Form from "../Components/pricePrediction"
 
 const Pricing = () => {
   return (
@@ -15,6 +16,10 @@ const Pricing = () => {
 
       <div className="container mb-5">
         <BarChart />
+      </div>
+
+      <div className="container mb-5">
+        <Form />
       </div>
     </div>
 
