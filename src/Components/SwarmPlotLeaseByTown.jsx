@@ -21,7 +21,8 @@ const MyResponsiveSwarmPlot = () => {
         <div style={{ height: "400px" }}>
         <ResponsiveSwarmPlot
         data={data}
-        groups={[ '80-90 years', '70-79 years', '60-69 years', '50-59 years' ]}
+        groups={[ '94-90 years', '89-85 years', '84-80 years', '79-75 years', '74-70 years', '69-65 years', '64-60 years', '59-55 years', '54-50 years'
+        ]}
         identity="town"
         value="avg_resale_price_sqm"
         valueFormat="$.2f"
@@ -34,7 +35,7 @@ const MyResponsiveSwarmPlot = () => {
             ],
             sizes: [
                 1,
-                7
+                9
             ]
         }}
         spacing={2}
@@ -54,6 +55,11 @@ const MyResponsiveSwarmPlot = () => {
                 ]
             ]
         }}
+        tooltip={(node) => {
+            return  `${node.data._id}
+                      Avg Resale Price: ${node.data.avg_resale_price_sqm.toFixed(2)}
+                      Remaining Lease: ${node.data.avg_remaining_lease.toFixed(2)}`
+          }}
         margin={{ top: 80, right: 100, bottom: 80, left: 100 }}
         axisTop={{
             orient: 'top',

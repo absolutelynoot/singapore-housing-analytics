@@ -731,14 +731,24 @@ def get_avg_lease_remaining_by_town():
             
         for doc in list_cur:
             avg_remaining_lease = doc["avg_remaining_lease"]
-            if avg_remaining_lease >= 80 and avg_remaining_lease <= 91:
-                doc['group'] = '80-90 years'
-            elif avg_remaining_lease >= 70 and avg_remaining_lease <= 80:
-                doc['group'] = '70-79 years'
-            elif avg_remaining_lease >= 60 and avg_remaining_lease <= 70:
-                doc['group'] = '60-69 years'
-            elif avg_remaining_lease >= 50 and avg_remaining_lease <= 60:
-                doc['group'] = '50-59 years'
+            if avg_remaining_lease >= 90 and avg_remaining_lease <= 94:
+                doc['group'] = '94-90 years'
+            elif avg_remaining_lease >= 85 and avg_remaining_lease <= 89:
+                doc['group'] = '89-85 years'
+            elif avg_remaining_lease >= 80 and avg_remaining_lease <= 84:
+                doc['group'] = '84-80 years'
+            elif avg_remaining_lease >= 75 and avg_remaining_lease <= 80:
+                doc['group'] = '79-75 years'
+            elif avg_remaining_lease >= 70 and avg_remaining_lease <= 75:
+                doc['group'] = '74-70 years'
+            elif avg_remaining_lease >= 65 and avg_remaining_lease <= 70:
+                doc['group'] = '69-65 years'
+            elif avg_remaining_lease >= 60 and avg_remaining_lease <= 65:
+                doc['group'] = '64-60 years'
+            elif avg_remaining_lease >= 55 and avg_remaining_lease <= 60:
+                doc['group'] = '59-55 years'
+            elif avg_remaining_lease >= 50 and avg_remaining_lease <= 55:
+                doc['group'] = '54-50 years'
 
         response = list_cur
 
