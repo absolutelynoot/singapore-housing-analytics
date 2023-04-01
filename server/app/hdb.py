@@ -345,6 +345,11 @@ def get_avg_price_sqm_by_house_type():
                 "_id": "$flat_type",
                 "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
                 }
+            },
+            {
+                "$sort": {
+                "avg_resale_price_sqm": -1
+                }
             }
         ])
         
@@ -463,7 +468,7 @@ def get_most_expensive_unit_sold_by_house_type():
             },
             {
                 "$sort": {
-                    "_id": 1
+                    "resale_price": 1
                 }
             }
         ])
@@ -491,7 +496,7 @@ def get_cheapest_unit_sold_by_house_type():
             {
                 "$group": {
                 "_id": "$flat_type",
-                "cheapest_unit_sold": { 
+                "unit_sold": { 
                         "$first": {
                             "resale_price": "$resale_price",
                             "town": "$town",
@@ -505,7 +510,7 @@ def get_cheapest_unit_sold_by_house_type():
             },
             {
                 "$sort": {
-                    "_id": 1
+                    "resale_price": -1
                 }
             }
         ])
@@ -533,7 +538,7 @@ def get_most_expensive_unit_by_town():
             {
                 "$group": {
                 "_id": "$town",
-                "most_expensive_unit_sold": { 
+                "unit_sold": { 
                         "$first": {
                             "resale_price": "$resale_price",
                             "flat_type": "$flat_type",
@@ -543,11 +548,6 @@ def get_most_expensive_unit_by_town():
                             "remaining_lease": "$remaining_lease"
                         }
                     }
-                }
-            },
-            {
-                "$sort": {
-                    "resale_price": 1
                 }
             }
         ])
@@ -575,7 +575,7 @@ def get_cheapest_unit_by_town():
             {
                 "$group": {
                 "_id": "$town",
-                "cheapest_unit_sold": { 
+                "unit_sold": { 
                         "$first": {
                             "resale_price": "$resale_price",
                             "flat_type": "$flat_type",
@@ -589,7 +589,7 @@ def get_cheapest_unit_by_town():
             },
             {
                 "$sort": {
-                    "resale_price": 1
+                    "resale_price": -1
                 }
             }
         ])
@@ -752,6 +752,64 @@ def get_avg_lease_remaining_by_town():
 
         response = list_cur
 
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'
+    
+@app.route("/hdb/avg_lease_remaining_by_house_type_with_units_sold")
+def get_avg_lease_remaining_by_house_type_with_units_sold():
+    try:
+        # Calculate average price per sqm by flat type
+        cur = mycol.aggregate([
+            {
+                "$addFields": {
+                "resale_price_double": { "$toDouble": "$resale_price" },
+                "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+            },
+            {
+                "$addFields": {
+                "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+            },
+            {
+                "$group": {
+                "_id": "$flat_type",
+                "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+            },
+            {
+                "$sort": {
+                "avg_resale_price_sqm": -1
+                }
+            }
+        ])
+        
+        # Group by flat type to calculate total units sold
+        total_units_sold = mycol.aggregate([
+            {
+                "$group": {
+                    "_id": "$flat_type",
+                    "total_units_sold": { "$sum": 1 }
+                }
+            }
+        ])
+        
+        # Merge the two results
+        data = {}
+        for item in cur:
+            flat_type = item['_id']
+            data[flat_type] = {
+                '_id': flat_type,
+                'avg_resale_price_sqm': item['avg_resale_price_sqm']
+            }
+        
+        for item in total_units_sold:
+            flat_type = item['_id']
+            data[flat_type]['total_units_sold'] = item['total_units_sold']
+        
+        response = {"Result": list(data.values())}
         return jsonify(response), 200
     
     except:
