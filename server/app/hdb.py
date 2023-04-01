@@ -715,7 +715,9 @@ def get_avg_lease_remaining_by_town():
             {
                 "$group": {
                 "_id": "$town",
-                "avg_remaining_lease": { "$avg": "$lease_years" }
+                "town": { "$first": "$town" },
+                "avg_remaining_lease": { "$avg": "$lease_years" },
+                "avg_resale_price_sqm": { "$avg": "$resale_price_per_sqm" }
                 }
             },
             {
@@ -726,8 +728,19 @@ def get_avg_lease_remaining_by_town():
         ])
 
         list_cur = list(cur)
+            
+        for doc in list_cur:
+            avg_remaining_lease = doc["avg_remaining_lease"]
+            if avg_remaining_lease >= 80 and avg_remaining_lease <= 91:
+                doc['group'] = '80-90 years'
+            elif avg_remaining_lease >= 70 and avg_remaining_lease <= 80:
+                doc['group'] = '70-79 years'
+            elif avg_remaining_lease >= 60 and avg_remaining_lease <= 70:
+                doc['group'] = '60-69 years'
+            elif avg_remaining_lease >= 50 and avg_remaining_lease <= 60:
+                doc['group'] = '50-59 years'
 
-        response = {"Result": list_cur}
+        response = list_cur
 
         return jsonify(response), 200
     
