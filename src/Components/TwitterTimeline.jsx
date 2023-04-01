@@ -18,7 +18,7 @@ const TwitterTimeline = ({ screenName }) => {
           screenName: screenName,
         }}
         options={{
-          height: "650",
+          height: "800",
         }} onLoad={handleLoad}
       />
     </>
