@@ -754,6 +754,7 @@ def predict_price():
     housing_df = pd.DataFrame(data, index=[0])
     print(housing_df)
     new_order = ['town', 'flat_type', 'flat_model', 'floor_area_sqm', 'street_name', 'remaining_lease', 'storey_range', 'year', 'month']
+    housing_df['remaining_lease'] = housing_df['remaining_lease'].str[0:2]
 
     # ensure that same order as how when model was training
     housing_df = housing_df.reindex(columns=new_order)
@@ -772,4 +773,4 @@ def predict_price():
     # Print the modified data
     prediction = model_read.predict(housing_df.iloc[[0]])
 
-    return jsonify(prediction), 200
+    return jsonify(prediction[0]), 200
