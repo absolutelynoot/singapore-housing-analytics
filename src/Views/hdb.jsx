@@ -47,11 +47,11 @@ const sideNavData = [
         path : '/hdb/',
         subPages: [
           {
-            name: 'Transporation Analysis',
+            name: 'Transporation Analysis (coming soon)',
             path: 'transportation'
           },
           {
-            name: 'Park and other ammenities',
+            name: 'Park and other ammenities (coming soon)',
             path: 'parks'
           }
         ]
