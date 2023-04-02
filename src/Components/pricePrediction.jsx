@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import Autocomplete from '@mui/material/Autocomplete';
+
 
 const MyForm = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +17,7 @@ const MyForm = () => {
     year: '',
     month: ''
   });
+  const [predictedPrice, setPredictedPrice] = useState(null);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -31,14 +34,54 @@ const MyForm = () => {
         body: JSON.stringify(formData)
       })
       .then(response => response.json())
-    //   .then(result => setPredictedPrice(result.predicted_price))
+      .then(data => {
+        console.log(data);
+        setPredictedPrice(data.prediction);
+      })
       .catch(error => console.log(error))
+
   };
 
+  // const options = [
+  //   { value: "Ang Mo Kio", label: "Ang Mo Kio" },
+  //   { value: "Bedok", label: "Bedok" },
+  //   { value: "Bishan", label: "Bishan" },
+  //   { value: "Bukit Batok", label: "Bukit Batok" },
+  //   { value: "Bukit Merah", label: "Bukit Merah" },
+  //   { value: "Bukit Panjang", label: "Bukit Panjang" },
+  //   { value: "Bukit Timah", label: "Bukit Timah" },
+  //   { value: "Central Area", label: "Central Area" },
+  //   { value: "Choa Chu Kang", label: "Choa Chu Kang" },
+  //   { value: "Clementi", label: "Clementi" },
+  //   { value: "Geylang", label: "Geylang" },
+  //   { value: "Hougang", label: "Hougang" },
+  //   { value: "Jurong East", label: "Jurong East" },
+  //   { value: "Jurong West", label: "Jurong West" },
+  //   { value: "Kallang/Whampoa", label: "Kallang/Whampoa" },
+  //   { value: "Marine Parade", label: "Marine Parade" },
+  //   { value: "Pasir Ris", label: "Pasir Ris" },
+  //   { value: "Punggol", label: "Punggol" },
+  //   { value: "Queenstown", label: "Queenstown" },
+  //   { value: "Sembawang", label: "Sembawang" },
+  //   { value: "Sengkang", label: "Sengkang" },
+  //   { value: "Serangoon", label: "Serangoon" },
+  //   { value: "Tampines", label: "Tampines" },
+  //   { value: "Toa Payoh", label: "Toa Payoh" },
+  //   { value: "Woodlands", label: "Woodlands" },
+  //   { value: "Yishun", label: "Yishun" }
+  // ]
+
   return (
+    <>
+    {predictedPrice && (
+      <div className="alert alert-info my-3 align-items-center d-flex" role="alert" style={{height:"100px"}}>
+        Price Prediction: {predictedPrice}
+      </div>
+    )}
+    <div>
     <form onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             name="town"
             label="Town"
@@ -104,7 +147,7 @@ const MyForm = () => {
         <Grid item xs={12} sm={6}>
           <TextField
             name="year"
-            label="Year"
+            label="Expect Year of Sale"
             fullWidth
             value={formData.year}
             onChange={handleInputChange}
@@ -113,7 +156,7 @@ const MyForm = () => {
         <Grid item xs={12} sm={6}>
           <TextField
             name="month"
-            label="Month"
+            label="Expect Month of Sale"
             fullWidth
             value={formData.month}
             onChange={handleInputChange}
@@ -126,6 +169,8 @@ const MyForm = () => {
         </Grid>
       </Grid>
     </form>
+    </div>
+  </>
   );
 };
 
