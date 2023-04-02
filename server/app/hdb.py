@@ -4,6 +4,9 @@ import requests
 from pymongo import MongoClient
 import certifi
 import hashlib
+import joblib
+import pandas as pd
+import numpy as np
 
 client = MongoClient(app.config["MONGO_URI"], tlsCAFile=certifi.where())
 mydb = client["housing"]
