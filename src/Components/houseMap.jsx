@@ -54,18 +54,8 @@ function Map() {
         <>
         
             <div>
-            {/* <form onSubmit={handleSubmit}>
-                <TextField
-                    id="input-field"
-                    label="Input field"
-                    variant="outlined"
-                    value={value}
-                    onChange={handleInputChange}
-                />
-                <Button variant="contained" type="submit">
-                    Submit
-                </Button>
-            </form> */}
+      
+            <br></br>
             <form onSubmit={handleSubmit}>
             <Grid container spacing={2} alignItems="center">
                 <Grid item xs={12} sm={8}>
@@ -90,6 +80,7 @@ function Map() {
             </Grid>
             </form>
             </div>
+            <br></br>
             <GoogleMap zoom={zoom} center={center}>
                 <div style={{ height: '80vh', width: '100%' }}>
                     {points.map(({id, lat, lng, title}) => {
