@@ -22,7 +22,7 @@ const AveragePriceByHouseTypeCardList = ({ title, data }) => {
           <li key={item._id} className="list-group-item">
             <div className="fw-bold">{item._id}</div>
             <div>
-                Avg price per Sqm: {item.avg_resale_price_sqm}
+                Avg price per Sqm: SGD {item.avg_resale_price_sqm}
             </div>
             <div>
                 Total units sold: {item.total_units_sold}
