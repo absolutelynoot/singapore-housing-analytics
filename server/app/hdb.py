@@ -773,4 +773,9 @@ def predict_price():
     # Print the modified data
     prediction = model_read.predict(housing_df.iloc[[0]])
 
-    return jsonify(prediction[0]), 200
+    return jsonify({'prediction': prediction[0]}), 200
+
+# @app.route("/hdb/predict_price", methods=['POST'])
+# def predict_price():
+#     prediction = [500000]
+#     return jsonify({'prediction': prediction[0]}), 200
