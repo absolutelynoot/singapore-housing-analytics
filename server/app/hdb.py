@@ -7,6 +7,7 @@ import hashlib
 import joblib
 import pandas as pd
 import numpy as np
+import requests
 
 client = MongoClient(app.config["MONGO_URI"], tlsCAFile=certifi.where())
 mydb = client["housing"]
