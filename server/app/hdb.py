@@ -802,3 +802,45 @@ def get_avg_lease_remaining_by_house_type_with_units_sold():
     
     except:
         return 'Failed to connect to MongoDB'
+    
+# load the model from the pickle file
+filename = './models/linear_regression_model.joblib'
+with open(filename, 'rb') as file:
+    model_read = joblib.load(file)
+
+@app.route("/hdb/predict_price", methods=['POST'])
+def predict_price():
+    # Get data from request
+    data = request.get_json()
+    print(data)
+
+    # categorical_features=['town', 'flat_type', 'flat_model', 'street_name', 'storey_range', 'remaining_lease']
+    
+    housing_df = pd.DataFrame(data, index=[0])
+    print(housing_df)
+    new_order = ['town', 'flat_type', 'flat_model', 'floor_area_sqm', 'street_name', 'remaining_lease', 'storey_range', 'year', 'month']
+    housing_df['remaining_lease'] = housing_df['remaining_lease'].str[0:2]
+
+    # ensure that same order as how when model was training
+    housing_df = housing_df.reindex(columns=new_order)
+    print(housing_df)
+
+    categorical_features=['town', 'flat_type', 'flat_model', 'street_name', 'storey_range', 'remaining_lease']
+
+    # iterate over the columns in the dataframe and apply label encoding
+    for feature in categorical_features:
+        # save the label encoder for the column to a file
+        with open(f"./models/{feature}_label_encoder.joblib", "rb") as f:
+            encoder_read = joblib.load(f)
+
+        housing_df[feature] = encoder_read.transform(housing_df[feature])
+
+    # Print the modified data
+    prediction = model_read.predict(housing_df.iloc[[0]])
+
+    return jsonify({'prediction': prediction[0]}), 200
+
+# @app.route("/hdb/predict_price", methods=['POST'])
+# def predict_price():
+#     prediction = [500000]
+#     return jsonify({'prediction': prediction[0]}), 200
