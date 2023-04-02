@@ -84,13 +84,12 @@ function Map() {
                     })
                     }
                 </div>
-                {/* <MarkerF visible={true} position={{ lat: 1.3521, lng: 103.8198 }}/> */}
             </GoogleMap>
-            <div>This are the details of the location when you click on the markers</div><br></br>
+            <br></br>
             {temp && (
                 <div className='container' style={{padding: "0px"}}>
                     <div className='row'>
-                        <h4>Area Name: {temp.town}</h4>
+                        <h4>Town Name: {temp.town}</h4>
 
                     </div>
                     <div className='row'>
@@ -100,7 +99,7 @@ function Map() {
                             <p>Most Expensive Flat Type: {temp.max_flat_type}</p>
                             <p>Most Expensive Flat Size: {temp.max_floor_area_sqm} sqm</p>
                             <p>Price: ${temp.maximum_price}</p>
-                            <p>Date of Sale: ${temp.max_month}</p>
+                            <p>Date of Sale: {temp.max_month}</p>
                         </div>
                         <div className='col'>
                             <p>Max Address: {temp.min_address}</p>
@@ -108,7 +107,7 @@ function Map() {
                             <p>Most Expensive Flat Type: {temp.min_flat_type}</p>
                             <p>Most Expensive Flat Size: {temp.min_floor_area_sqm}sqm</p>
                             <p>Price: ${temp.minimum_price}</p>
-                            <p>Date of Sale: ${temp.min_month}</p>
+                            <p>Date of Sale: {temp.min_month}</p>
                         </div>
 
                     </div>
