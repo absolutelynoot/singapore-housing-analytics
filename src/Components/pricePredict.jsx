@@ -75,7 +75,7 @@ const MyForm = () => {
     <>
     {predictedPrice && (
       <div className="alert alert-info my-3 align-items-center d-flex" role="alert" style={{height:"100px"}}>
-        Price Prediction: {predictedPrice}
+        Price Prediction: ${predictedPrice}
       </div>
     )}
     <div>

@@ -1,6 +1,6 @@
 from app import app
-from flask import jsonify
-import requests
+from flask import jsonify, request
+
 from pymongo import MongoClient
 import certifi
 import hashlib
