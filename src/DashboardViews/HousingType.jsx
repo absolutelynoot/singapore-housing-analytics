@@ -1,8 +1,13 @@
-import React from 'react'
+import HouseTypesTableau from '../Components/HouseTypesTableau'
+import Scorecards from "../Components/Scorecards"
+
 
 const HousingType = () => {
   return (
-    <div>HousingType</div>
+    <div>
+      <Scorecards/>
+      <HouseTypesTableau/>
+    </div>
   )
 }
 
