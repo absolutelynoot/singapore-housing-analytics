@@ -67,7 +67,7 @@ const MyResponsiveLine = () => {
     };
 
     return (
-        <div style={{ height: "600px", marginBottom:"50px"}}>
+        <div style={{ height: "600px", marginBottom:"100px"}}>
             <div className="fw-semibold">Date Filter (Year)</div>
             <Slider
                 getAriaLabel={() => 'Year Range'}
