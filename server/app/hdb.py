@@ -883,3 +883,17 @@ def get_town_avg_price_sqm_by_year():
     
     except:
         return 'Failed to connect to MongoDB'
+    
+@app.route("/hdb/street/<string:address>")
+def get_hdb_by_street_name(address):
+    try:
+        # mongodb query to query database based on street_name
+        cur = mycol.find(
+            { "address": address }
+            )
+        
+        response = {"Result": list(cur)}
+
+        return jsonify(response), 200
+    except:
+        return 'Failed to connect to MongoDB'
