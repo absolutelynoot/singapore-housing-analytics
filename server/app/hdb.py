@@ -848,3 +848,38 @@ def predict_price():
 # def predict_price():
 #     prediction = [500000]
 #     return jsonify({'prediction': prediction[0]}), 200
+
+@app.route("/hdb/town_avg_price_sqm_by_year")
+def get_town_avg_price_sqm_by_year():
+    try:
+        # Calculate average price per sqm by flat type
+        cur = mycol.aggregate([
+            {
+                "$addFields": {
+                "resale_price_double": { "$toDouble": "$resale_price" },
+                "floor_area_sqm_double": { "$toDouble": "$floor_area_sqm" }
+                }
+            },
+            {
+                "$addFields": {
+                "avg_resale_price_sqm": { "$divide": [ "$resale_price_double", "$floor_area_sqm_double" ] }
+                }
+            },
+            {
+                "$group": {
+                "_id": { "town": "$town", "year": "$year" },
+                "avg_resale_price_sqm": { "$avg": "$avg_resale_price_sqm" }
+                }
+            },
+            {
+                "$sort": {
+                "avg_resale_price_sqm": -1
+                }
+            }
+        ])
+        
+        response = {"Result": list(cur)}
+        return jsonify(response), 200
+    
+    except:
+        return 'Failed to connect to MongoDB'

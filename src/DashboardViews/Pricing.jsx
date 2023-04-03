@@ -9,19 +9,23 @@ const Pricing = () => {
     <div>
       <Scorecards/>
 
-      <div className="container mb-5">
+      <div className="mb-5">
         <LineChart2 />
       </div>
 
-      <div className="container mb-5">
+      <div>
+        <h1 className="fw-semibold">Transaction over Time</h1>
         <LineChart />
       </div>
 
-      <div className="container mb-5">
+      <div>
+        <h1 className="fw-semibold">Town vs Average Square Meter</h1>
         <BarChart />
       </div>
 
-      <div className="container mb-5">
+      <div className="mb-5">
+        <h1 className="fw-semibold">Predictive Analysis of Average House Price</h1>
+        <p>Please enter information below and click submit</p>
         <Form />
       </div>
     </div>
