@@ -92,7 +92,7 @@ const Overview = () => {
 
   return (
     <>
-      <h1 className="mb-3">Overview</h1>
+      <h1 className="mb-3 fw-bold">Overview</h1>
       <Scorecards/>
 
       <div className="row mb-3">

@@ -18,7 +18,7 @@ const MyResponsiveSwarmPlot = () => {
     }, []);
 
     return (
-        <div style={{ height: "400px" }}>
+        <div style={{ height: "400px", marginBottom: "50px"}}>
         <ResponsiveSwarmPlot
         data={data}
         groups={[ '94-90 years', '89-85 years', '84-80 years', '79-75 years', '74-70 years', '69-65 years', '64-60 years', '59-55 years', '54-50 years'

@@ -81,7 +81,7 @@ const BarChart = () => {
       });
 
   return (
-    <div style={{ height: "400px" }}>
+    <div style={{ height: "400px", marginBottom: "200px" }}>
       <div className="checkbox-container">
         {/* CHECKBOX BUTTONS FOR FLAT TYPE */}
         <div className="row mb-3">

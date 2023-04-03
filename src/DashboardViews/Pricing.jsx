@@ -7,7 +7,8 @@ import Form from "../Components/pricePredict"
 const Pricing = () => {
   return (
     <div>
-      <Scorecards/>
+      <h1 className="mb-3 fw-bold">Pricing Analysis</h1>
+        <Scorecards/>
 
       <div className="mb-5">
         <LineChart2 />

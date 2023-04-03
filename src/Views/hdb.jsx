@@ -42,20 +42,20 @@ const sideNavData = [
         },
       ]
     },
-    {
-        name : 'Ammenties Analysis',
-        path : '/hdb/',
-        subPages: [
-          {
-            name: 'Transporation Analysis (coming soon)',
-            path: 'transportation'
-          },
-          {
-            name: 'Park and other ammenities (coming soon)',
-            path: 'parks'
-          }
-        ]
-      }
+    // {
+    //     name : 'Ammenties Analysis',
+    //     path : '/hdb/',
+    //     subPages: [
+    //       {
+    //         name: 'Transporation Analysis (coming soon)',
+    //         path: 'transportation'
+    //       },
+    //       {
+    //         name: 'Park and other ammenities (coming soon)',
+    //         path: 'parks'
+    //       }
+    //     ]
+    //   }
   ]
 
 const Hdb = () => {
