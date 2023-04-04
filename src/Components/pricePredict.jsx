@@ -36,7 +36,12 @@ const MyForm = () => {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        setPredictedPrice(data.prediction);
+        // format data.prediction to 0 decimal place with comma
+        const formattedPrediction = data.prediction.toLocaleString('en-US', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0
+        });
+        setPredictedPrice(formattedPrediction);
       })
       .catch(error => console.log(error))
 
