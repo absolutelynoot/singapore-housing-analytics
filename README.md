@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ```shell
 1. React
-2. Bootstrap
+2. Bootstrap & MUI
 3. Nivo Charts
 4. @react-google-maps/api
 ```
